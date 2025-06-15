@@ -1,0 +1,181 @@
+/* -----------------------------------
+   Global 
+----------------------------------- */
+* {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+    /* border: 2px solid pink; */
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  nav a {
+    text-decoration: none;
+    color:black;
+  }
+  
+  #black-text {
+    color: black;
+  }
+  
+  html {
+    overflow-y: scroll;
+  }
+  
+  .gray-text {
+    color:#888;
+  }
+
+  .bold-text{
+    font-weight:bold;
+  }
+  
+  .gray-text a {
+    color: #888;
+    text-decoration: none;
+  }
+
+  
+  
+  
+  /* -----------------------------------
+    Main Setting
+  ----------------------------------- */
+  main {
+    margin-top: 70px;
+  }
+  
+  .main-inner {
+    max-width: 1395px;
+    margin: 0 auto;
+    padding-left: clamp(1rem, 5vw, 3rem);
+    padding-right: clamp(1rem, 5vw, 3rem);
+  }
+  
+  
+  /* -----------------------------------
+     Navigation Bar
+  ----------------------------------- */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%); /*safari*/
+  
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3); 
+
+  }
+  
+  .nav-inner {
+    max-width: 1395px;
+    margin: 0 auto;
+    padding: 0.5rem clamp(1rem, 5vw, 3rem); 
+    position: relative;
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  
+  .nav-left,
+  .nav-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-left {
+    justify-content: flex-start;
+  }
+  
+  .nav-right {
+    justify-content: flex-end;
+  }
+  
+  
+  .nav-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+  
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(206, 206, 206, 0.4);
+  }
+  
+  
+  .nav-links {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .nav-links a {
+    padding: 0.5rem 0.8rem;   
+  }
+  
+  
+  .logo {
+    height: 50px;
+    display: block;
+  }
+
+  /* FOR ALL PAGE */
+.footer-section{
+    margin-top:8rem;
+    display:flex;
+    align-items:flex-end;
+    margin-bottom:2rem;
+  }
+  
+  .footer-list{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size:1rem;
+    margin-bottom:2rem;
+    margin-right:1rem;
+    width:50%;
+  }
+
+  .gray-text a:hover{
+    color:black;
+    text-decoration:underline;
+    transition:color 0.3s;
+  }
+
+  .footer-list p {
+    display: inline; 
+    padding: 0;       
+    
+  }
+
+  
+  
+  .footer-list p {
+    padding-top:0.5rem;
+  }
+  
+  
+  .footer-section .footer-rights{
+    margin-bottom:2rem;
+    font-size:1rem;
+    width:50%;
+  }
+
+  

@@ -1,0 +1,125 @@
+
+/* -----------------------------------
+  Navigator Change
+----------------------------------- */
+.nav-links .work {
+    background-color: #000000;
+    color: rgb(255, 255, 255);           
+    border-radius: 20px;   
+}
+
+.nav-links .play:hover{
+  background-color:#e7e7e7;
+  border-radius:20px;
+  transition:background 0.3s
+}
+
+.nav-links .info:hover{
+  background-color:#e7e7e7;
+  border-radius:20px;
+  transition:background 0.3s
+}
+  
+
+/* -----------------------------------
+   Greetings Detail
+----------------------------------- */
+.greetings {
+  display: flex;
+  flex-wrap:wrap;
+
+  /* gap:14rem; */
+}
+
+
+.greetings-main {
+  max-width: 100%;
+  width: 50%;
+  margin-top:14rem;
+  margin-bottom:9rem;
+  text-align: left;
+  
+}
+
+.greetings-main h1 {
+  font-size: clamp(1rem, 4vw, 3rem);
+  margin-bottom: 1.5rem;
+  white-space: nowrap;
+  text-align: left;
+  font-weight:500;
+}
+
+.greetings-main .tagline {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 1.6;
+  max-width: 40ch;
+  color:#888;
+}
+
+
+
+
+/* -----------------------------------
+   Project Section
+----------------------------------- */
+.main-work {
+  margin-top: 3rem
+
+}
+
+.main-work h2{
+  margin-bottom:1rem;
+  font-size: 1.5rem;
+
+}
+
+.main-work h3{
+  margin-top:1rem;
+  margin-bottom:1rem;
+  font-size:1.25rem;
+}
+
+.main-work a{
+  text-decoration: none;
+  color:#000000;
+}
+
+
+.project-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.project {
+  flex: 1 1 300px;
+  max-width: 1000px;
+}
+
+.project a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+.image-hover-wrapper {
+  border: 1px solid #e5e5e5;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+
+.project:hover img {
+  transform: scale(1.05);
+}
+
+.project img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+
+

@@ -1,0 +1,126 @@
+
+/* -----------------------------------
+  Navigator Change
+----------------------------------- */
+.nav-links .work {
+    background-color: black;
+    color: white;                
+    border-radius: 20px;   
+  }
+
+  .nav-links .play:hover{
+    background-color:#e7e7e7;
+    border-radius:20px;
+    transition:background 0.3s
+  }
+  
+  .nav-links .info:hover{
+    background-color:#e7e7e7;
+    border-radius:20px;
+    transition:background 0.3s
+  }
+
+.red-text{
+  color:rgb(238, 0, 0)
+}
+
+main img {
+    max-width:100%;
+    height:auto;
+    display:block;
+    border-radius: 15px;
+    border: 1px solid #e5e5e5;
+    margin-top:2rem;
+}
+
+main h1 {
+    font-size:2rem;
+    margin-top:7rem;
+    margin-bottom:1rem;
+    font-weight:500;
+}
+
+#top-text{
+  margin-bottom:0rem;
+}
+
+#full-width{
+  width:100%;
+}
+
+
+main h2{
+    font-size:1.5rem;
+    width:50%;
+    margin-top:1.5rem;
+    margin-bottom:10rem;
+    font-weight:400;
+}
+
+main p{
+    font-size:1.2rem;
+    width: 50%;
+    line-height:1.8rem;
+
+}
+
+main video{
+  width:10%;
+}
+
+.description-row p{
+    margin-top:1.5rem;
+    margin-bottom:3rem;
+}
+
+.description-row{
+    display: flex;
+    justify-content:space-between;
+    flex-wrap: wrap;
+  }
+  
+  .project-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .section-spacing {
+    margin-top: 8rem; 
+    width:50%;
+  }
+
+  .half-image{
+    width:49.5%;
+    
+  }
+  
+  .nav-side {
+    width: 50%;
+  }
+  
+  .nav-side.left {
+    text-align: left;
+  }
+  
+  .nav-side.right {
+    text-align: left; 
+  }
+  
+  .nav-button {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: gray;
+  }
+  
+  .nav-button:hover {
+    color: black;
+    text-decoration: underline;
+    transition:color 0.3s;
+  }
+
+  
+
+  
+  
