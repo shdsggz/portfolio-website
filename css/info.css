@@ -61,4 +61,27 @@
     font-size: clamp(1rem, 1vw, 4rem);
     margin-top:1rem;
   }
+
+  @media (max-width: 768px) {
+    .main-inner.info-layout {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   
+    .info-photo,
+    .info-text {
+      width: 100%;
+      padding-left: 0;
+    }
+  
+    .info-photo img {
+      width: 60%;        
+      max-width: 300px;   
+      margin: 0;          
+      display: block;
+    }
+  
+    .info-text {
+      margin-top: 2rem;
+    }
+  }

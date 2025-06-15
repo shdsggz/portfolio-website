@@ -62,3 +62,9 @@
     margin-bottom:1rem;
     display: inline-block;
   }
+
+  @media (max-width: 768px) {
+    .main-inner .play-images {
+      column-count: 1;
+    }
+  }
