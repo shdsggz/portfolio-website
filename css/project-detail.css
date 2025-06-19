@@ -92,17 +92,6 @@ width: 50%;
 width: 49.5%;
 }
 
-.nav-side {
-width: 50%;
-}
-
-.nav-side.left {
-text-align: left;
-}
-
-.nav-side.right {
-text-align: left; 
-}
 
 .nav-button {
 font-size: 1.5rem;
@@ -156,4 +145,5 @@ transition: color 0.3s;
   main img {
     margin-top: 1rem;
   }
+
 }
