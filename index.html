@@ -19,6 +19,12 @@
   <meta name="robots" content="index, follow">
   <meta name="keywords" content="Leo Song, coming soon, website maintenance">
   <meta name="author" content="Leo Song">
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="LEO SONG" />
+  <link rel="manifest" href="site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
@@ -39,7 +45,16 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      
+      /* Grid background */
+      background-image: 
+        /* Grid lines */
+        linear-gradient(to right, rgba(76, 76, 76, 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(76, 76, 76, 0.3) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px;
+      background-position: 0 0, 0 0, 0 0;
     }
+    
     
     .coming-soon {
       max-width: 600px;
@@ -54,6 +69,7 @@
     }
     
     p.name {
+      
       font-size: 1.2rem;
       font-weight: 300;
       opacity: 0.8;
