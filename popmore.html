@@ -1,185 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Popmore - Leo Song</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popmore</title>
+  <meta name="description" content="Popmore - Mystery Box Companion App by Leo Song, Designer & Creative Technologist.">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Popmore – Leo Song">
+  <meta property="og:description" content="Popmore - Mystery Box Companion App by Leo Song, Designer & Creative Technologist.">
+  <meta property="og:image" content="media/popmore/popmore-thumbnail.png">
+  <meta property="og:url" content="https://leosong.design/popmore.html">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card-->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Popmore – Leo Song">
+  <meta name="twitter:description" content="Popmore - Mystery Box Companion App by Leo Song, Designer & Creative Technologist.">
+  <meta name="twitter:image" content="media/popmore/popmore-thumbnail.png">
+  
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="Leo Song, Popmore, mystery box, app design, portfolio, UX, UI, product design">
+  <meta name="author" content="Leo Song">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/project-detail.css">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="shortcut icon" href="favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-title" content="leosong" />
-  <link rel="manifest" href="site.webmanifest" />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/png" href="media/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="media/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="media/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="media/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Leo Song" />
+  <link rel="manifest" href="media/favicon/site.webmanifest" />
+  
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="popmore.css">
 </head>
 
 <body>
-  <nav>
-    <div class="nav-inner">
-      <div class="nav-left">
-        <a href="index.html">
-          <img src="images/Leo_Logo.svg" alt="Leo Song Logo" class="logo">
-        </a>
-      </div>
-      <div class="nav-center">
-        <div class="nav-links">
-          <a href="index.html" class="work">Work</a>
-          <a href="play.html" class="play">Play</a>
-          <a href="info.html" class="info">Info</a>
+  <h1 class="visually-hidden">Popmore - Leo Song</h1>
+  
+  <!-- Main container -->
+  <div class="main-container">
+    
+    <!-- Navigation -->
+    <nav class="navigation">
+      <div class="nav-container">
+        <div class="nav-left">
+          <a href="index.html" class="nav-item">Home</a>
+        </div>
+        <div class="nav-right">
+          <a href="index.html#work" class="nav-item">Work</a>
+          <a href="index.html#fun" class="nav-item">Fun</a>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <main>
-    <div class="main-inner">
-      <section class="project-detail">
-        <h1>Popmore, App Design</h1>
-        <p class="description-paragraph"><span class="gray-text">Individual Project<br>ArtCenter Spring 25, 6 Weeks</span></p>
-        <img src="images/popmore_detail_3.png" alt="Popmore Title">
-
-        <div class="description-row">
-          <h2 class="description-heading">Project Description</h2>
-          <p class="description-paragraph">Popmore is a <span class="bold-text">Collection Companion App</span> that enhances the mystery box experience by giving users a second chance to unbox, track, and display their figures digitally.</p>
-        </div>
-
-        <div class="description-row">
-          <h2 class="description-heading">Problem Statement</h2>
-          <p class="description-paragraph">
-            <span class="gray-text">If the experience matters more than the product itself, </span><br>
-            <span class="bold-text">How might we reuse the product to let customers relive the experience?</span><br><br>
-            <span class="gray-text">What if the app...</span><br>
-            Gives users a <span class="bold-text">Second Digital Box</span> when they purchase a physical box?<br>
-            Gives users a <span class="bold-text">Choice</span> if the user didn’t love the physical figure, they can choose a new one digitally.
-          </p>
-        </div>
-
-        <div class="description-row">
-          <h2 class="description-heading">Core Features <span class="gray-text">↓</span></h2>
-        </div>
-
-        <div class="description-row">
-          <img src="images/popmore_detail_10.png" alt="Opening Box UI">
-          <p class="description-paragraph gray-text full-width-paragraph">→ Users can connect their Pop Mart account to track purchases and unlock a digital box for each figure.</p>
-        </div>
-
-        <div class="description-row">
-          <img src="images/popmore_detail_11.png" alt="Home Screen UI">
-          <p class="description-paragraph gray-text full-width-paragraph">→ Users can conveniently track their collection digitally.</p>
-        </div>
-
-        <div class="description-row">
-          <img src="images/popmore_detail_12.png" alt="Collect Special Shelf UI">
-          <p class="description-paragraph gray-text full-width-paragraph">→ Users can unlock special shelves by completing a full collection.</p>
-        </div>
-
-        <div class="description-row">
-          <img src="images/popmore_detail_2.png" alt="Widget Application UI">
-          <p class="description-paragraph gray-text full-width-paragraph">→ Users can display their favorite figure as a home screen widget and customize it.</p>
-        </div>
-
-        <div class="description-row">
-          <img src="images/popmore_detail_6.png" alt="Mystery Box Introduction">
-        </div>
-
-        <div class="description-row">
-          <h2 class="description-heading">Introduction</h2>
-          <p class="description-paragraph">The popularity of mystery boxes has been rapidly increasing, driven by the <span class="bold-text">emotional thrill of surprise and the joy of collecting.</span> At the center of this growing culture is a brand called <span class="red-text bold-text">POPMART</span> and I realized it would be a perfect fit for my project that allows users to bring their physical collectibles into the digital world.</p>
-        </div>
-
-        <div class="description-row">
-          <h2 class="description-heading">Central Questions</h2>
-          <p class="description-paragraph">
-            → How can we enhance the collecting experience?<br><br>
-            → What are the key motivations behind consumers' decisions to purchase mystery boxes?<br><br>
-            → Which specific features or psychological factors make mystery boxes appealing to consumers?<br><br>
-            <span class="gray-text">To advance my knowledge on my research objectives, I conducted secondary research using scholarly sources.</span>
-          </p>
-        </div>
-
-        <div class="description-row">
-          <h2 class="description-heading">Field Research <span class="gray-text">↓</span></h2>
-          <img src="images/popmore_detail_7.png" alt="Field Research Detail">
-          <p class="description-paragraph full-width-paragraph"><span class="gray-text">To better understand...</span><br>Interviewed with <span class="bold-text">9 unique participants</span> to explore the behavioral aspects of mystery box consumption.</p>
-        </div>
-
-        <div class="description-row">
-          <img src="images/popmore_detail_13.png" alt="Field Research Detail">
-        </div>
-
-        <div class="description-row custom-spacing">
-          <h2 class="description-heading">Analysis <span class="gray-text">↓</span></h2>
-          <img src="images/popmore_detail_8.png" alt="UX Journey Map">
-          <p class="description-paragraph full-width-paragraph">Built a <span class="bold-text">UX Journey Map</span> to visualize the overall user experience of mystery boxes.</p>
-          <img src="images/popmore_detail_9.png" alt="KJ Method">
-          <p class="description-paragraph full-width-paragraph">Conducted a <span class="bold-text">KJ Method</span> using quotes and observation statements from the interviews. <span class="gray-text">(Collaborated with Brice Pierce, Jackson Pettus, David Ko)</span>
-          </p>
-        </div>
-
-        <div class="description-row custom-spacing">
-          <h2 class="description-heading">Research Findings</h2>
-          <p class="description-paragraph">Some users value the experience of unboxing more than the physical item itself. For them, the anticipation, surprise, and emotional high of revealing what’s inside holds greater significance than the product they receive.</p>
-        </div>
-
-        <div class="description-row custom-spacing">
-          <h2 class="description-heading">Competitive Analysis <span class="gray-text">↓</span></h2>
-          <img src="images/popmore_detail_14.png" alt="Competitive Analysis">
-          <img src="images/popmore_detail_15.png" alt="Competitive Analysis">
-        </div>
-
-        <div class="description-row custom-spacing">
-          <h2 class="description-heading">Design Systems <span class="gray-text">↓</span></h2>
-          <img src="images/popmore_detail_16.png" alt="Typography">
-          <img src="images/popmore_detail_17.png" alt="Colors">
-        </div>
-
-        <div class="description-row custom-spacing">
-          <h2 class="description-heading">Low, Mid-Fidelity Wireframes <span class="gray-text">↓</span></h2>
-          <img src="images/popmore_detail_18.png" alt="Wireframes">
-        </div>
-
-        <div class="description-row custom-spacing">
-          <h2 class="description-heading">If I had more time...</h2>
-          <p class="description-paragraph">
-            → Reconsider about making a separate app. Could it be a new feature inside a POPMART app?<br>
-            → How can I accurately track the physical boxes and convert them into a digital collection?
-          </p>
-        </div>
-
-        <div class="description-row">
-          <img src="images/popmore_detail_4.jpg" alt="Popmore Poster">
-        </div>
-
-        <div class="project-nav">
-          <div>
-            <a href="index.html" class="nav-button gray-text"><- Back</a>
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        
+        <!-- Hero Section -->
+        <div class="hero-section">
+          <div class="hero-image-container">
+            <div class="hero-image">
+              <img class="hero-main" src="media/popmore/details/p-1.png" alt="Popmore Hero" />
+            </div>
           </div>
-          <div>
-            <a href="spera.html" class="nav-button gray-text">Next -></a>
+          <div class="project-meta">
+            <div class="meta-item">
+              <div class="meta-label">ROLE</div>
+              <div class="meta-value">Product Designer</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">SKILLS</div>
+              <div class="meta-value">User Research<br/>Product Design<br/>Prototyping</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">TIMELINE</div>
+              <div class="meta-value">4 Weeks<br/>Apr 2025</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">TEAM</div>
+              <div class="meta-value">Leo Song</div>
+            </div>
           </div>
         </div>
-      </section>
-    </div>
-  </main>
 
-  <!-- Footer -->
-  <div class="main-inner">
-    <section class="footer-section">
-      <div class="footer-list gray-text">
-        <p><a href="https://drive.google.com/file/d/1fSo9unZ1oddOOo8ICGo2KupYTmbDh-HS/view?usp=sharing" target="_blank">Resume</a></p>
-        <p><a href="https://www.linkedin.com/in/songleoo/" target="_blank">LinkedIn</a></p>
-        <p><a href="mailto:leo1236591179@gmail.com">Email</a></p>
-        <p><a href="https://www.instagram.com/songleoo/" target="_blank">Instagram</a></p>
+        <!-- Project Overview -->
+        <div class="content-section scroll-animate">
+          <div class="section-header">
+            <div class="section-subtitle">Popmore - Mystery Box Companion App</div>
+            <div class="section-title">Reimagining Unboxing: A Digital Second Chance at Discovery</div>
+          </div>
+          <img class="large-image" src="media/popmore/details/p-3.png" alt="Context Image" />
+          <div class="text-section">
+            <div class="text-content">
+              <div class="section-subtitle">CONTEXT</div>
+              <div class="text-large">
+                <span class="highlight">Mystery boxes are rapidly gaining popularity</span>, with Pop Mart at the center of the surprise-driven collecting culture.
+                <br><br>As the trend grew, I began questioning what truly drives people to buy mystery boxes.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <!-- Context Section -->
+        
+          
+
+      
+
+        <!-- User Research -->
+        <div class="text-content scroll-animate">
+          <div class="image-grid">
+            <img src="media/popmore/details/p-4.png" alt="Research Image 1" />
+            <img src="media/popmore/details/p-5.png" alt="Research Image 2" />
+            <img src="media/popmore/details/p-6.png" alt="Research Image 3" />
+          </div>
+          <div class="section-subtitle">USER RESEARCH</div>
+          <div class="text-medium">
+            To better understand the culture around mystery boxes, <span class="highlight">I visited Pop Mart's offline store</span> and immersed myself in the experience firsthand. 
+            Alongside field research, I interviewed <span class="highlight">9 participants</span> to uncover key emotions, behaviors, and motivations.
+            <br><br>I then synthesized the findings using the <span class="highlight">KJ method</span> to uncover core themes.
+          </div>
+          
+        </div>
+
+        
+
+        
+
+       
+
+        <!-- KJ Method Section -->
+        <div class="text-section scroll-animate">
+          <img class="large-image" src="media/popmore/details/p-7.png" alt="KJ Method"/>
+          <div class="text-small, text-grey">
+            Conducted a KJ Method using quotes and observation statements from the interviews. I organized them into categories, grouped similar ideas, and took time to analyze emerging patterns and themes.
+          </div>
+        </div>
+
+        <!-- Key Insight - Left/Right Layout -->
+        <div class="insight-section scroll-animate">
+          <div class="insight-image">
+            <img src="media/popmore/details/p-7.2.JPG" alt="Key Insight" />
+          </div>
+          <div class="insight-text">
+            <div class="section-subtitle">KEY INSIGHT</div>
+            <div class="text-large">
+              I found that for many users, the true value of a mystery box lies in the <span class="highlight">excitement of unboxing</span> rather than the item inside.
+            </div>
+          </div>
+        </div>
+
+        <!-- Design Solution -->
+        <div class="content-section scroll-animate">
+          <div class="text-content">
+            <div class="section-subtitle">DESIGN SOLUTION</div>
+            <div class="text-large">
+              <span class="highlight">What if unboxing could happen twice: </span>once in your hands, and again on your screen?
+            </div>
+            <div class="text-small, text-grey">
+              When a customer buys a physical mystery box, the app also gives them a second digital box to open.
+            </div>
+          </div>
+        </div>
+
+        <!-- Core Features -->
+        <div class="feature-section-two-column scroll-animate">
+          <div class="feature-media">
+            <video class="feature-video" autoplay muted loop playsinline>
+              <source src="media/popmore-proto-1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="feature-text">
+            <div class="section-subtitle">CORE FEATURE 1</div>
+            <div class="feature-title">Personalized Collection</div>
+            <div class="feature-description, text-grey">Users can view, showcase, and organize their figures in a digital collection space, arranging them however they like.</div>
+          </div>
+        </div>
+
+        <div class="feature-section-two-column scroll-animate">
+          
+          <div class="feature-text">
+            <div class="section-subtitle">CORE FEATURE 2</div>
+            <div class="feature-title">Claim a Digital Figure</div>
+            <div class="feature-description, text-grey">When a user purchases a physical mystery box, they can unlock a matching digital figure in the app, giving them a second unboxing experience to relive.</div>
+          </div>
+          <div class="feature-media">
+            <video class="feature-video" autoplay muted loop playsinline>
+              <source src="media/popmore-proto-2.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
+        <div class="feature-section scroll-animate">
+          <div class="feature-text">
+            <div class="section-subtitle">CORE FEATURE 3</div>
+            <div class="feature-title">Home Screen Widget</div>
+            <div class="feature-description, text-grey">Figures can be added directly to the device's home screen as interactive widgets. <br>Bringing the collection beyond the app and into daily life.</div>
+          </div>
+          <div class="widget-mockup">
+            <img class="widget-mockup-img" src="media/popmore/details/p-10.png" alt="Widget Feature" />
+          </div>
+        </div>
+        <!-- Reflection -->
+        <div class="text-section scroll-animate">
+          <div class="text-content">
+            <div class="section-subtitle">REFLECTION</div>
+            <div class="text-medium">Conducting in-depth research on potential users highlighted the importance of understanding not only what the audience wants, but also the reasoning behind their decisions.</div>
+          </div>
+          <img class="final-images" src="media/popmore/details/p-12.png" alt="Final Mockup" />
+        </div>
+        
+
+        
+
+        <!-- Disclaimer -->
+        <div class="text-section scroll-animate">
+          <div class="text-content">
+            <div class="disclaimer">DISCLAIMER</div>
+            <div class="text-medium">Pop Mart characters and figures displayed in this project are the intellectual property of Pop Mart. They are included strictly for academic and illustrative purposes to demonstrate a design concept. I do not claim ownership of these assets.</div>
+          </div>
+        </div>
+
+        <!-- Footer Section -->
+        <footer class="footer-section">
+          <div class="footer-content">
+            <div class="footer-left">
+              <button class="footer-name" id="footer-back-to-top">Back to Top ↑</button>
+            </div>
+            <div class="footer-right">
+              <div class="footer-copyright">© 2025</div>
+            </div>
+          </div>
+        </footer>
+
       </div>
-      <div class="footer-rights">
-        <p>© 2025</p>
-      </div>
-    </section>
+    </main>
+    
   </div>
+  
+  <script src="script.js"></script>
 </body>
 </html>
