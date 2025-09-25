@@ -60,6 +60,8 @@ html {
   -webkit-backdrop-filter: blur(15px);
   border-bottom: 1px solid #E5E5E5;
   padding: 18px 0;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .nav-container {
@@ -185,6 +187,8 @@ html {
   height: auto;
   border-radius: 12px;
   opacity: 0.95;
+  -webkit-playsinline: true;
+  playsinline: true;
 }
 
 
@@ -539,6 +543,16 @@ html {
 }
 
 @media (max-width: 560px) {
+  
+  .navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+  }
   
   .nav-container {
     padding: 0 0px;

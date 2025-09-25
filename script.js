@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeResponsiveFeatures();
     initializeNavigationScrollDetection();
     initializeProjectScrollAnimation();
+    initializeScrollAnimations();
     initializeVideoDelay();
     initializeEmailCopy();
     initializeFooterBackToTop();
@@ -108,15 +109,11 @@ function initializeProjectScrollAnimation() {
         });
     }
     
-    // Only animate on home page, show immediately on other pages
+    // Only animate on home page, let scroll animations handle other pages
     if (isHomePage) {
         animateAllElements();
-    } else {
-        // If not home page, show elements immediately without animation
-        animatedElements.forEach(element => {
-            element.classList.add('animate-in');
-        });
     }
+    // For other pages, let the scroll animation function handle the animations
 }
 
 // Export utils for use in other scripts
@@ -137,27 +134,6 @@ function initializeVideoDelay() {
     }
 }
 
-// Initialize scroll animations for project pages
-function initializeScrollAnimations() {
-    const animatedElements = document.querySelectorAll('.scroll-animate');
-    
-    if (animatedElements.length === 0) return;
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-    
-    animatedElements.forEach(element => {
-        observer.observe(element);
-    });
-}
 
 // Initialize email copy functionality
 function initializeEmailCopy() {
@@ -262,5 +238,4 @@ function initializeFooterBackToTop() {
 // Initialize navigation when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigationScrollDetection();
-    initializeScrollAnimations();
 });
