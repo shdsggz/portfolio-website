@@ -533,7 +533,7 @@ html {
 
 
 /* Responsive Design */
-@media (max-width: 1440px) {
+@media (max-width: 1200px) {
   .content-container {
     width: 100%;
     padding: 0 24px;
@@ -573,7 +573,7 @@ html {
   
 }
 
-@media (max-width: 560px) {
+@media (max-width: 768px) {
   
   .navigation {
     position: fixed;
