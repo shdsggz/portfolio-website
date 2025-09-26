@@ -221,6 +221,35 @@ function showCopyFeedback(element, message) {
     }, 300);
 }
 
+// Initialize scroll animations
+function initializeScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements that need scroll animation
+    const elementsToAnimate = document.querySelectorAll('.footer-section, .fun-section, .works-section');
+    elementsToAnimate.forEach(el => observer.observe(el));
+    
+    // Also observe footer on project pages (it might not have other sections)
+    const footer = document.querySelector('.footer-section');
+    if (footer && !footer.classList.contains('animate-in')) {
+        // If footer exists and hasn't been animated yet, trigger it immediately
+        setTimeout(() => {
+            footer.classList.add('animate-in');
+        }, 100);
+    }
+}
+
 // Initialize footer back to top button
 function initializeFooterBackToTop() {
     const footerBackToTop = document.getElementById('footer-back-to-top');

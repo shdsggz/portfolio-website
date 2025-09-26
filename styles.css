@@ -296,7 +296,15 @@ html {
 }
 
 .project-item:hover .project-title {
-  color: #a1a1ad;
+  color: #6e6e7b;
+}
+
+.project-item {
+  transition: transform 0.3s ease-out;
+}
+
+.project-item:hover {
+  transform: scale(0.985);
 }
 
 .project-image-container {
@@ -321,9 +329,6 @@ html {
   transform: translateY(0);
 }
 
-.project-item:hover .project-image {
-  transform: scale(1.05);
-}
 
 /* Fun Section */
 .fun-section {
@@ -354,6 +359,16 @@ html {
 
 .fun-landscape {
   width: 100%;
+  transition: transform 0.3s ease-out;
+}
+
+.fun-landscape:hover {
+  transform: scale(0.985);
+}
+
+.fun-landscape:hover .fun-description {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .fun-items-section {
@@ -382,6 +397,7 @@ html {
   flex-direction: column;
   gap: 12px;
   width: 100%;
+  transition: transform 0.3s ease-out;
 }
 
 .fun-image-container {
@@ -404,7 +420,6 @@ html {
   width: 100%;
   height: auto;
   display: block;
-  transition: transform 0.3s ease-out;
 }
 
 .fun-video-container {
@@ -427,7 +442,6 @@ html {
   width: 100%;
   height: auto;
   display: block;
-  transition: transform 0.3s ease-out;
 }
 
 .fun-description {
@@ -448,15 +462,13 @@ html {
   max-width: calc(100% - 24px);
 }
 
-.fun-image-container:hover .fun-description,
-.fun-video-container:hover .fun-description {
+.fun-item:hover .fun-description {
   opacity: 1;
   transform: translateY(0);
 }
 
-.fun-image-container:hover .fun-image,
-.fun-video-container:hover .fun-video {
-  transform: scale(1.02);
+.fun-item:hover {
+  transform: scale(0.985);
 }
 
 
