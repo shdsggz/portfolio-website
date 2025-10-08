@@ -350,6 +350,17 @@ html {
   transform: translateY(0);
 }
 
+/* Fun section spacing */
+.fun-section-spacing {
+  margin-top: 10rem;
+}
+
+@media (max-width: 768px) {
+  .fun-section-spacing {
+    margin-top: 6rem;
+  }
+}
+
 .fun-container {
   display: flex;
   flex-direction: column;
@@ -368,7 +379,7 @@ html {
 
 .fun-landscape:hover .fun-description {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 .fun-items-section {
@@ -422,32 +433,13 @@ html {
   display: block;
 }
 
-.fun-video-container {
-  display: block;
-  border-radius: 12px;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  animation-delay: 0.6s;
-  position: relative;
-}
 
-.fun-video-container.animate-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.fun-video {
-  width: 100%;
-  height: auto;
-  display: block;
-}
 
 .fun-description {
   position: absolute;
   bottom: 12px;
-  left: 12px;
+  left: 50%;
+  transform: translateX(-50%);
   background: rgba(255, 255, 255,0.95);
   color: #1D1D1F;
   padding: 10px 16px;
@@ -464,7 +456,7 @@ html {
 
 .fun-item:hover .fun-description {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 .fun-item:hover {
