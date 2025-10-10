@@ -264,7 +264,71 @@ function initializeFooterBackToTop() {
     }
 }
 
+// Initialize Carousel Functionality
+function initializeCarousels() {
+    const carousels = document.querySelectorAll('.carousel-container');
+    if (!carousels.length) return;
+    
+    carousels.forEach(carousel => {
+        initializeCarousel(carousel);
+    });
+}
+
+function initializeCarousel(carousel) {
+    
+    const currentImage = carousel.querySelector('.current-image');
+    const nextImage = carousel.querySelector('.next-image');
+    if (!currentImage || !nextImage) return;
+    
+    // Get carousel ID to determine which images to use
+    const carouselId = carousel.getAttribute('data-carousel-id');
+    
+    let imagePaths = [];
+    
+    if (carouselId === 'missouri') {
+        imagePaths = [
+            'media/fun/MissouriBooklet/1.png',
+            'media/fun/MissouriBooklet/2.png',
+            'media/fun/MissouriBooklet/3.png',
+            'media/fun/MissouriBooklet/4.png',
+            'media/fun/MissouriBooklet/5.png',
+            'media/fun/MissouriBooklet/6.png',
+            'media/fun/MissouriBooklet/7.png',
+            'media/fun/MissouriBooklet/8.png',
+            'media/fun/MissouriBooklet/9.png',
+            'media/fun/MissouriBooklet/10.png',
+            'media/fun/MissouriBooklet/11.png'
+        ];
+    }
+    
+    let currentIndex = 0;
+    
+    carousel.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Move to next image
+        currentIndex = (currentIndex + 1) % imagePaths.length;
+        
+        // Set next image source
+        nextImage.src = imagePaths[currentIndex];
+        
+        // Switch the images instantly
+        currentImage.style.opacity = '0';
+        nextImage.style.opacity = '1';
+        
+        // Swap the classes after a brief moment
+        setTimeout(() => {
+            currentImage.src = imagePaths[currentIndex];
+            currentImage.style.opacity = '1';
+            nextImage.style.opacity = '0';
+        }, 50);
+    });
+}
+
+
 // Initialize navigation when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigationScrollDetection();
+    initializeCarousels();
 });

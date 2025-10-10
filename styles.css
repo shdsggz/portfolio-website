@@ -103,7 +103,7 @@ html {
   color: #a1a1ad;
 }
 
-
+  
 
 
 /* Main Content */
@@ -371,16 +371,134 @@ html {
 .fun-landscape {
   width: 100%;
   transition: transform 0.3s ease-out;
+  min-height: 300px;
+  position: relative;
 }
 
 .fun-landscape:hover {
-  transform: scale(0.985);
+  /* Scale effect removed */
 }
 
 .fun-landscape:hover .fun-description {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
+
+/* Media Overlay Styles - Generic classes for future use */
+.media-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.media-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.media-overlay-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.media-overlay-item {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.media-overlay-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 32px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+.media-overlay-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Clickable media containers - Generic class for future use */
+.clickable-media-container {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.clickable-media-container:hover {
+  transform: scale(1.02);
+}
+
+/* Generic Carousel Styles */
+.carousel-container {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.fun-item .carousel-container:hover {
+  transform: scale(0.985) !important;
+}
+
+.carousel-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Ensure videos display properly in carousel */
+.carousel-image video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.current-image {
+  opacity: 1;
+  z-index: 2;
+}
+
+.next-image {
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Ensure description appears on hover for carousel containers */
+.carousel-container:hover .fun-description {
+  opacity: 1;
+  transform: translateY(0);
+  z-index: 3;
+}
+
 
 .fun-items-section {
   display: flex;
@@ -438,12 +556,11 @@ html {
 .fun-description {
   position: absolute;
   bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 12px;
   background: rgba(255, 255, 255,0.95);
   color: #1D1D1F;
-  padding: 10px 16px;
-  border-radius: 50px;
+  padding: 8px 12px;
+  border-radius: 6px;
   font-size: 12px;
   font-family: 'Figtree', sans-serif;
   font-weight: 500;
@@ -456,12 +573,14 @@ html {
 
 .fun-item:hover .fun-description {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
 .fun-item:hover {
-  transform: scale(0.985);
+  /* Scale effect removed - only carousel has hover effect */
 }
+
+
 
 
 
