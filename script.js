@@ -1,334 +1,188 @@
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Portfolio website loaded successfully!');
-    
-    // Initialize any interactive elements here
-    initializeSmoothScrolling();
-    initializeResponsiveFeatures();
-    initializeNavigationScrollDetection();
-    initializeProjectScrollAnimation();
-    initializeScrollAnimations();
-    initializeVideoDelay();
-    initializeEmailCopy();
-    initializeFooterBackToTop();
-});
-
-
-// Smooth scrolling for anchor links
-function initializeSmoothScrolling() {
-    const links = document.querySelectorAll('a[href^="#"]');
-    
-    links.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
-
-// Responsive features and mobile optimizations
-function initializeResponsiveFeatures() {
-  
-    if ('ontouchstart' in window) {
-        document.body.classList.add('touch-device');
+// High-Performance Horizontal Scroll Controller
+window.addEventListener('load', function () {
+    // Elements
+    const portfolioSection = document.querySelector('.portfolio-section');
+    const customScrollbar = document.querySelector('.custom-scrollbar');
+    const customScrollbarThumb = document.querySelector('.custom-scrollbar-thumb');
+    if (!portfolioSection || !customScrollbar || !customScrollbarThumb) {
+      console.error('Required elements not found'); return;
     }
-}
 
-// Utility functions for future use
-const utils = {
-    // Debounce function for performance optimization
-    debounce: function(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    },
+    // Performance-optimized state
+    let velocity = 0;
+    let isAnimating = false;
+    let lastTime = 0;
+    let animationFrame = null;
     
-    // Throttle function for scroll events
-    throttle: function(func, limit) {
-        let inThrottle;
-        return function() {
-            const args = arguments;
-            const context = this;
-            if (!inThrottle) {
-                func.apply(context, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
-        };
-    },
+    // Dimensions cache
+    let scrollWidth = 0, clientWidth = 0, maxScroll = 0, scrollbarWidth = 0;
     
-    // Check if element is in viewport
-    isInViewport: function(element) {
-        const rect = element.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
+    function updateDimensions() {
+      scrollWidth = portfolioSection.scrollWidth;
+      clientWidth = portfolioSection.clientWidth;
+      maxScroll = Math.max(0, scrollWidth - clientWidth);
+      scrollbarWidth = customScrollbar.offsetWidth;
     }
-};
 
-// Simple navigation - no animations needed
-function initializeNavigationScrollDetection() {
-    // Navigation is now handled purely with CSS
-    // No JavaScript animations needed
-}
-
-// Page load animation for all content sections
-function initializeProjectScrollAnimation() {
-    const animatedElements = document.querySelectorAll('.header-section, .works-section, .fun-section, .footer-section, .project-image-container, .fun-image-container, .fun-video-container');
-    
-    if (animatedElements.length === 0) return;
-    
-    // Check if this is the home page (index.html)
-    const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '';
-    
-    // Function to animate all elements with staggered timing
-    function animateAllElements() {
-        animatedElements.forEach((element, index) => {
-            // Add a small delay based on element type for staggered effect
-            setTimeout(() => {
-                element.classList.add('animate-in');
-            }, index * 200); // 200ms delay between each element for better visibility
-        });
+    // GPU-optimized scrollbar update with gradient
+    function updateScrollbar() {
+      const scrollLeft = portfolioSection.scrollLeft;
+      
+      if (maxScroll > 0) {
+        const thumbWidth = Math.max(50, (clientWidth / scrollWidth) * scrollbarWidth);
+        const thumbPos = (scrollLeft / maxScroll) * (scrollbarWidth - thumbWidth);
+        
+        // Use transform3d for GPU acceleration
+        customScrollbarThumb.style.width = thumbWidth + 'px';
+        customScrollbarThumb.style.transform = `translate3d(${thumbPos}px,0,0)`;
+        
+        // Dynamic gradient - essential for visual mood
+        const t = scrollLeft / maxScroll;
+        const p = Math.max(0, Math.min(1, t));
+        customScrollbarThumb.style.background = `linear-gradient(90deg,
+          transparent 0%,
+          transparent ${Math.max(0, (p - 0.3) * 100)}%,
+          rgba(255,255,255,0.1) ${Math.max(0, (p - 0.2) * 100)}%,
+          rgba(255,255,255,0.4) ${Math.max(0, (p - 0.1) * 100)}%,
+          rgba(255,255,255,0.7) ${Math.max(0, (p - 0.05) * 100)}%,
+          #FFFFFF ${p * 100}%,
+          rgba(255,255,255,0.7) ${Math.min(100, (p + 0.05) * 100)}%,
+          rgba(255,255,255,0.4) ${Math.min(100, (p + 0.1) * 100)}%,
+          rgba(255,255,255,0.1) ${Math.min(100, (p + 0.2) * 100)}%,
+          transparent ${Math.min(100, (p + 0.3) * 100)}%,
+          transparent 100%)`;
+      }
     }
-    
-    // Only animate on home page, let scroll animations handle other pages
-    if (isHomePage) {
-        animateAllElements();
-    }
-    // For other pages, let the scroll animation function handle the animations
-}
 
-// Export utils for use in other scripts
-window.portfolioUtils = utils;
-
-
-// Initialize video with delay
-function initializeVideoDelay() {
-    const logoVideo = document.getElementById('logo-video');
-    
-    if (logoVideo) {
-        // Start video after 1.5 seconds delay
-        setTimeout(() => {
-            logoVideo.play().catch(error => {
-                console.log('Video autoplay failed:', error);
-            });
-        }, 800);
-    }
-}
-
-
-// Initialize email copy functionality
-function initializeEmailCopy() {
-    const emailLink = document.getElementById('email-link');
-    
-    if (emailLink) {
-        emailLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const email = 'shdsggz@gmail.com';
-            
-            // Try to copy to clipboard
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(email).then(() => {
-                    showCopyFeedback(emailLink, 'Copied!');
-                }).catch(() => {
-                    fallbackCopyTextToClipboard(email, emailLink);
-                });
-            } else {
-                fallbackCopyTextToClipboard(email, emailLink);
-            }
-        });
-    }
-}
-
-// Fallback copy method for older browsers
-function fallbackCopyTextToClipboard(text, element) {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.left = '-999999px';
-    textArea.style.top = '-999999px';
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    
-    try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-            showCopyFeedback(element, 'Copied!');
-        } else {
-            showCopyFeedback(element, 'Copy failed');
+    // Smooth momentum animation loop
+    function animate(currentTime) {
+      if (!isAnimating) return;
+      
+      const deltaTime = currentTime - lastTime;
+      lastTime = currentTime;
+      
+      if (Math.abs(velocity) > 0.1) {
+        // Apply velocity with friction
+        velocity *= 0.95; // Light friction for smooth deceleration
+        portfolioSection.scrollLeft += velocity * (deltaTime / 16); // Normalize to 60fps
+        
+        // Bounds checking
+        if (portfolioSection.scrollLeft < 0) {
+          portfolioSection.scrollLeft = 0;
+          velocity = 0;
+        } else if (portfolioSection.scrollLeft > maxScroll) {
+          portfolioSection.scrollLeft = maxScroll;
+          velocity = 0;
         }
-    } catch (err) {
-        showCopyFeedback(element, 'Copy failed');
+        
+        updateScrollbar();
+        animationFrame = requestAnimationFrame(animate);
+      } else {
+        velocity = 0;
+        isAnimating = false;
+      }
     }
-    
-    document.body.removeChild(textArea);
-}
 
-// Show visual feedback when email is copied
-function showCopyFeedback(element, message) {
-    const originalText = element.textContent;
+    // Robust mouse detection
+    function isMouseLikeWheel(e) {
+      return e.deltaMode === 1 || Math.abs(e.deltaY) > 50;
+    }
+
+    portfolioSection.addEventListener('wheel', (e) => {
+      const isMouseWheel = isMouseLikeWheel(e);
+      e.preventDefault();
+      
+      const scrollDelta = (e.deltaX + e.deltaY);
+      
+      if (isMouseWheel) {
+        // Direct, precise control — no momentum
+        portfolioSection.scrollLeft += scrollDelta * 1.5;
+        
+        // Cancel any existing animation
+        if (animationFrame) {
+          cancelAnimationFrame(animationFrame);
+        }
+        velocity = 0;
+        isAnimating = false;
+        updateScrollbar();
+      } else {
+        // Trackpad with smooth inertia
+        portfolioSection.scrollLeft += scrollDelta * 1.2;
+        velocity += scrollDelta * 0.2;
+        velocity = Math.max(-15, Math.min(15, velocity));
+        updateScrollbar();
+        if (!isAnimating && Math.abs(velocity) > 0.5) {
+          isAnimating = true;
+          animationFrame = requestAnimationFrame(animate);
+        }
+      }
+    }, { passive: false });
+
+    // Update scrollbar on native scroll
+    portfolioSection.addEventListener('scroll', updateScrollbar, { passive: true });
+
+    // Click-to-seek on scrollbar
+    customScrollbar.addEventListener('click', (e) => {
+      const rect = customScrollbar.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const ratio = clickX / scrollbarWidth;
+      portfolioSection.scrollLeft = ratio * maxScroll;
+    }, { passive: true });
+
+    // Prevent thumb clicks from triggering scrollbar clicks
+    customScrollbarThumb.addEventListener('click', (e) => e.stopPropagation(), { passive: true });
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      updateDimensions();
+      updateScrollbar();
+    }, { passive: true });
+
+    // Handle BFCache restore and tab switching
+    window.addEventListener('pageshow', () => {
+      updateDimensions();
+      updateScrollbar();
+    }, { passive: true });
+
+    // Handle visibility change (tab switching)
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        // Tab became visible, update dimensions immediately
+        updateDimensions();
+        updateScrollbar();
+      }
+    }, { passive: true });
+
+    // Initialize immediately
+    updateDimensions();
+    updateScrollbar();
+
+    // Media load detection for proper dimensions (non-blocking)
+    const mediaElements = document.querySelectorAll('img, video');
+    let pendingMedia = mediaElements.length;
     
-    // Add transition class for smooth animation
-    element.style.transition = 'all 0.3s ease';
-    
-    // Fade out current text
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(5px)';
-    
+    if (pendingMedia > 0) {
+      mediaElements.forEach((el) => {
+        const done = () => {
+          pendingMedia--;
+          if (pendingMedia === 0) {
+            updateDimensions();
+            updateScrollbar();
+          }
+        };
+        
+        if (el.complete || (el.readyState >= 2)) {
+          done();
+        } else {
+          el.addEventListener('load', done, { once: true, passive: true });
+          el.addEventListener('loadedmetadata', done, { once: true, passive: true });
+        }
+      });
+    }
+
+    // Additional initialization after a short delay to ensure everything is ready
     setTimeout(() => {
-        // Change text and color
-        element.textContent = message;
-        element.style.color = '#1D1D1F';
-        
-        // Fade in new text
-        element.style.opacity = '1';
-        element.style.transform = 'translateY(0)';
-        
-        // Reset after delay
-        setTimeout(() => {
-            // Fade out feedback
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(-5px)';
-            
-            setTimeout(() => {
-                // Restore original text and styling
-                element.textContent = originalText;
-                element.style.color = '';
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }, 300);
-        }, 1200);
-    }, 300);
-}
-
-// Initialize scroll animations
-function initializeScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, observerOptions);
-
-    // Observe elements that need scroll animation
-    const elementsToAnimate = document.querySelectorAll('.footer-section, .fun-section, .works-section');
-    elementsToAnimate.forEach(el => observer.observe(el));
-    
-    // Also observe footer on project pages (it might not have other sections)
-    const footer = document.querySelector('.footer-section');
-    if (footer && !footer.classList.contains('animate-in')) {
-        // If footer exists and hasn't been animated yet, trigger it immediately
-        setTimeout(() => {
-            footer.classList.add('animate-in');
-        }, 100);
-    }
-}
-
-// Initialize footer back to top button
-function initializeFooterBackToTop() {
-    const footerBackToTop = document.getElementById('footer-back-to-top');
-    
-    if (footerBackToTop) {
-        footerBackToTop.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-}
-
-// Initialize Carousel Functionality
-function initializeCarousels() {
-    const carousels = document.querySelectorAll('.carousel-container');
-    if (!carousels.length) return;
-    
-    carousels.forEach(carousel => {
-        initializeCarousel(carousel);
-    });
-}
-
-function initializeCarousel(carousel) {
-    
-    const currentImage = carousel.querySelector('.current-image');
-    const nextImage = carousel.querySelector('.next-image');
-    if (!currentImage || !nextImage) return;
-    
-    // Get carousel ID to determine which images to use
-    const carouselId = carousel.getAttribute('data-carousel-id');
-    
-    let imagePaths = [];
-    
-    if (carouselId === 'missouri') {
-        imagePaths = [
-            'media/fun/MissouriBooklet/1.png',
-            'media/fun/MissouriBooklet/2.png',
-            'media/fun/MissouriBooklet/3.png',
-            'media/fun/MissouriBooklet/4.png',
-            'media/fun/MissouriBooklet/5.png',
-            'media/fun/MissouriBooklet/6.png',
-            'media/fun/MissouriBooklet/7.png',
-            'media/fun/MissouriBooklet/8.png',
-            'media/fun/MissouriBooklet/9.png',
-            'media/fun/MissouriBooklet/10.png',
-            'media/fun/MissouriBooklet/11.png'
-        ];
-    }
-    
-    let currentIndex = 0;
-    
-    carousel.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        // Move to next image
-        currentIndex = (currentIndex + 1) % imagePaths.length;
-        
-        // Set next image source
-        nextImage.src = imagePaths[currentIndex];
-        
-        // Switch the images instantly
-        currentImage.style.opacity = '0';
-        nextImage.style.opacity = '1';
-        
-        // Swap the classes after a brief moment
-        setTimeout(() => {
-            currentImage.src = imagePaths[currentIndex];
-            currentImage.style.opacity = '1';
-            nextImage.style.opacity = '0';
-        }, 50);
-    });
-}
-
-
-// Initialize navigation when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    initializeNavigationScrollDetection();
-    initializeCarousels();
+      updateDimensions();
+      updateScrollbar();
+    }, 100);
 });
