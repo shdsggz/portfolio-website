@@ -308,9 +308,8 @@ img {
   color: #FF0000;
 }
 
-/* Media Query - Mobile/Tablet */
+/* Mobile */
 @media (max-width: 768px) {
-  /* Sidebar */
   .sidebar {
     position: fixed;
     top: 0;
@@ -322,7 +321,6 @@ img {
     z-index: 1000;
   }
 
-  /* Back Link Container - Mobile */
   .sidebar .back-link-container {
     position: fixed;
     top: 16px;
@@ -359,7 +357,6 @@ img {
     display: none;
   }
 
-  /* Main Content */
   .main-content {
     margin-left: 0;
     height: auto;
@@ -371,7 +368,6 @@ img {
     max-width: 100%;
   }
 
-  /* Hero Section */
   .hero-section {
     gap: 16px;
   }
@@ -388,7 +384,6 @@ img {
     font-size: 20px;
   }
 
-  /* Meta Section */
   .meta-section {
     flex-direction: column;
     gap: 16px;
@@ -398,12 +393,10 @@ img {
     max-width: 100%;
   }
 
-  /* Section Text */
   .section-text {
     max-width: 100%;
   }
 
-  /* Feature Sections */
   .feature-section {
     gap: 32px;
   }
@@ -425,7 +418,6 @@ img {
   }
 
 
-  /* Images */
   .small-image {
     max-width: 100%;
   }
@@ -434,7 +426,6 @@ img {
     max-width: 100%;
   }
 
-  /* Text Sections */
   .section-title {
     max-width: 100%;
   }
@@ -443,12 +434,10 @@ img {
     max-width: 100%;
   }
 
-  /* Research Triangle */
   .research-triangle {
     gap: 16px;
   }
 
-  /* Research Images */
   .research-images {
     flex-direction: column;
     gap: 16px;
@@ -460,7 +449,6 @@ img {
     max-width: 100%;
   }
 
-  /* Disclaimer */
   .disclaimer-title {
     max-width: 100%;
   }

@@ -430,7 +430,7 @@ h3.name {
   color: var(--copyright-color);
 }
 
-/* Mobile - Convert horizontal scroll to vertical */
+/* Mobile */
 @media (max-width: 768px) {
   body {
     overflow-y: auto;
@@ -505,7 +505,6 @@ h3.name {
     overflow: hidden;
   }
 
-  /* Coming soon box - 50% height on mobile */
   .small-project:has(.coming-soon) {
     min-height: 200px;
     height: 100px;
@@ -523,7 +522,6 @@ h3.name {
     object-fit: cover;
   }
 
-  /* Project descriptions always visible on mobile with transparency */
   .project-description {
     opacity: 1;
     transform: translateY(0);
@@ -538,7 +536,6 @@ h3.name {
     display: none;
   }
 
-  /* Navigation section fixed at bottom on mobile */
   .bottom-section {
     position: fixed;
     bottom: 0;
@@ -563,7 +560,6 @@ h3.name {
   }
 
 
-  /* Keep loading percentage visible, hide progress bar visuals */
   .custom-scrollbar-thumb {
     display: none;
   }

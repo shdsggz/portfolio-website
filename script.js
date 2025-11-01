@@ -93,8 +93,6 @@ window.addEventListener('load', function () {
     }
 
     portfolioSection.addEventListener('wheel', (e) => {
-      // Only prevent default on desktop (horizontal scroll mode)
-      // On mobile, allow normal vertical scrolling
       if (window.innerWidth > 768) {
         e.preventDefault();
         const scrollDelta = e.deltaY * 0.5;
@@ -121,15 +119,15 @@ window.addEventListener('load', function () {
       updateScrollbar();
     }, { passive: true });
 
-    // Media loading removed - progress bar is now purely time-based
+    // Progress Bar
     let currentProgress = 0;
-    let displayPercentage = 0; // Smooth percentage for display
+    let displayPercentage = 0;
     let progressAnimationFrame = null;
     let isProgressBarMode = true;
     let progressStartTime = null;
     let progressCompleteTime = null;
-    const easeInDuration = 1500; // Ease-in duration: 1.5 seconds
-    const holdAt100Duration = 500; // Hold at 100% for 0.5 seconds
+    const easeInDuration = 1500;
+    const holdAt100Duration = 500;
     
     const portfolioLayout = document.querySelector('.portfolio-layout');
     const navigationLinks = document.querySelector('.navigation-links');
@@ -139,13 +137,10 @@ window.addEventListener('load', function () {
     function updateProgressBar() {
       const elapsed = progressStartTime ? performance.now() - progressStartTime : 0;
       
-      // Simple ease-in: progress from 0 to 1 over easeInDuration (1.5 seconds)
-      // Using cubic ease-in: t^3
       const t = Math.min(1.0, elapsed / easeInDuration);
-      currentProgress = t * t * t; // Cubic ease-in
+      currentProgress = t * t * t;
       
       const easedProgress = currentProgress;
-      
       const currentThumbWidth = 100 + (easedProgress * (scrollbarWidth - 100));
       customScrollbarThumb.style.width = currentThumbWidth + 'px';
       customScrollbarThumb.style.transform = 'translate3d(0, 0, 0)';
@@ -154,18 +149,14 @@ window.addEventListener('load', function () {
       const gradientPositionPercent = (scrollbarFilledWidth / currentThumbWidth) * 100;
       const clampedGradientPos = Math.min(100, gradientPositionPercent);
       
-      // Calculate percentage directly from eased progress (smooth and continuous)
       const targetPercentage = easedProgress * 100;
-      
-      // Smoothly interpolate display percentage (prevents jumping)
       const percentageDiff = targetPercentage - displayPercentage;
       if (Math.abs(percentageDiff) > 0.5) {
-        displayPercentage += percentageDiff * 0.2; // Smooth interpolation
+        displayPercentage += percentageDiff * 0.2;
       } else {
         displayPercentage = targetPercentage;
       }
       
-      // Update displayed percentage
       if (loadingPercentage) {
         const percentageNumber = loadingPercentage.querySelector('.percentage-number');
         if (percentageNumber) {
@@ -183,9 +174,7 @@ window.addEventListener('load', function () {
         transparent ${Math.min(100, clampedGradientPos + 15)}%,
         transparent 100%)`;
       
-      // Keep animating until we reach 100% and complete the hold duration
       if (elapsed >= easeInDuration) {
-        // We've reached the end of ease-in duration - ensure we're at 100%
         if (currentProgress < 1.0) {
           currentProgress = 1.0;
         }
@@ -207,7 +196,6 @@ window.addEventListener('load', function () {
         
         const holdDuration = performance.now() - progressCompleteTime;
         
-        // Hold at 100% for the specified duration before completing
         if (holdDuration >= holdAt100Duration) {
           isProgressBarMode = false;
           
@@ -227,7 +215,6 @@ window.addEventListener('load', function () {
             nameElement.classList.add('animate-in');
           }
           
-          // Animate bottom section on mobile
           const bottomSection = document.querySelector('.bottom-section');
           if (bottomSection) {
             bottomSection.classList.add('animate-in');
@@ -237,14 +224,10 @@ window.addEventListener('load', function () {
           clickableProjects.forEach(project => {
             project.classList.add('loaded');
           });
-          
-          // Mark as loaded in session storage
-          sessionStorage.setItem('homepageLoaded', 'true');
         } else {
           progressAnimationFrame = requestAnimationFrame(updateProgressBar);
         }
       } else {
-        // Keep animating - progress bar is still moving
         progressAnimationFrame = requestAnimationFrame(updateProgressBar);
       }
     }
@@ -256,7 +239,6 @@ window.addEventListener('load', function () {
       
       updateDimensions();
       
-      // On mobile, skip scrollbar width check since scrollbar is hidden
       if (!isMobile) {
         if (!scrollbarWidth || scrollbarWidth === 0) {
           setTimeout(() => {
@@ -268,9 +250,8 @@ window.addEventListener('load', function () {
           return;
         }
       } else {
-        // On mobile, use a fallback width for calculations
         if (!scrollbarWidth || scrollbarWidth === 0) {
-          scrollbarWidth = window.innerWidth || 375; // Fallback to viewport width or 375px
+          scrollbarWidth = window.innerWidth || 375;
         }
       }
       
@@ -304,96 +285,10 @@ window.addEventListener('load', function () {
       });
     }
     
-    // Check if this is a back/forward navigation
-    function isBackNavigation() {
-      // Check Performance Navigation API (most reliable method)
-      const navigation = performance.getEntriesByType('navigation')[0];
-      if (navigation) {
-        // 'back_forward' means user navigated back/forward (browser back/forward button)
-        if (navigation.type === 'back_forward') {
-          return true;
-        }
-      }
-      
-      // Check sessionStorage - set when navigating TO a project page
-      if (sessionStorage.getItem('fromProjectPage') === 'true') {
-        sessionStorage.removeItem('fromProjectPage');
-        return true;
-      }
-      
-      // Fallback: Check if we came from an internal project page via referrer
-      try {
-        const referrer = document.referrer;
-        const currentUrl = window.location.href;
-        if (referrer && referrer !== currentUrl) {
-          // Check if referrer is from the same origin (internal navigation)
-          const referrerUrl = new URL(referrer);
-          const currentUrlObj = new URL(currentUrl);
-          if (referrerUrl.origin === currentUrlObj.origin) {
-            // Check if referrer is from a project page (contains /popmore/, /potential/, etc.)
-            if (referrer.includes('/popmore/') || referrer.includes('/potential/') || referrer.includes('/suisse/')) {
-              return true;
-            }
-          }
-        }
-      } catch (e) {
-        // If URL parsing fails, ignore
-      }
-      
-      return false;
-    }
-    
-    // Check if this is a back navigation
-    const wasBackNavigation = isBackNavigation();
-    
-    if (wasBackNavigation) {
-      // Skip loading animation and directly initialize
-      isProgressBarMode = false;
-      const loadingPercentage = document.querySelector('.loading-percentage');
-      if (loadingPercentage) {
-        loadingPercentage.classList.add('hidden');
-      }
-      
-      if (portfolioLayout) {
-        portfolioLayout.classList.add('animate-in');
-      }
-      if (navigationLinks) {
-        navigationLinks.classList.add('animate-in');
-      }
-      if (nameElement) {
-        nameElement.classList.add('animate-in');
-      }
-      
-      // Animate bottom section on mobile
-      const bottomSection = document.querySelector('.bottom-section');
-      if (bottomSection) {
-        bottomSection.classList.add('animate-in');
-      }
-      
-      // Enable pointer events for clickable projects
-      const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
-      clickableProjects.forEach(project => {
-        project.classList.add('loaded');
-      });
-      
-      // Initialize scrollbar directly
+    // Always show loading bar
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          initializeScrollbar();
-          updateScrollbar();
-          if (customScrollbarThumb) {
-            customScrollbarThumb.classList.add('scrollbar-active');
-          }
-        });
+        startProgressBarAnimation();
       });
-    } else {
-      // First time load or refresh - show progress bar
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          startProgressBarAnimation();
-        });
-      });
-    }
-    
-    // Media loading code removed - progress bar is purely time-based
+    });
 });
