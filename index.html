@@ -4,10 +4,10 @@
   <title>Leo Song</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Leo Song is a product designer based in California, focused on blending interaction design with immersive storytelling.">
+  <meta name="description" content="Leo Song is an interaction designer based in California, focused on blending interaction design with immersive storytelling.">
   
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="Leo Song – Product & Interaction Designer">
+  <meta property="og:title" content="Leo Song — Interaction Designer">
   <meta property="og:description" content="Blending interaction design with immersive storytelling.">
   <meta property="og:image" content="https://leosong.org/images/preview.jpg">
   <meta property="og:url" content="https://leosong.org">
@@ -15,7 +15,7 @@
 
   <!-- Twitter Card-->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Leo Song – Product & Interaction Designer">
+  <meta name="twitter:title" content="Leo Song — Interaction Designer">
   <meta name="twitter:description" content="Blending interaction design with immersive storytelling.">
   <meta name="twitter:image" content="https://leosong.org/images/preview.jpg">
   
@@ -25,7 +25,7 @@
   <meta name="author" content="Leo Song">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="icon" href="media/favicon/favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/png" href="media/favicon/favicon-96x96.png" sizes="96x96" />
@@ -39,7 +39,13 @@
 </head>
 
 <body>
-  <h1 class="visually-hidden">Leo Song – Product Designer & Creative Technologist</h1>
+  <h1 class="visually-hidden">Leo Song — Interaction Designer & Creative Technologist</h1>
+  
+  <!-- Loading Percentage Display -->
+  <div class="loading-percentage">
+    <span class="percentage-number">0%</span>
+    <span class="percentage-name">welcome</span>
+  </div>
   
   <!-- Main container -->
   <div class="main-container">
@@ -48,27 +54,27 @@
     <section class="portfolio-section">
       <div class="portfolio-layout">
         <!-- Large Project - Takes full 88vh -->
-        <div class="large-project large-project-with-padding">
+        <a href="popmore/index.html" class="large-project large-project-with-padding clickable" onclick="sessionStorage.setItem('fromProjectPage', 'true')">
           <video autoplay muted loop class="project-media">
             <source src="media/popmore.mp4" type="video/mp4">
           </video>
           <div class="project-description">Reimagining Unboxing, App Design</div>
-        </div>
+        </a>
         
         <!-- Two Row Container -->
         <div class="two-rows-container">
           <!-- Top Row - 44vh minus gap -->
           <div class="top-row">
-            <div class="small-project">
+            <a href="potential/index.html" class="small-project clickable" onclick="sessionStorage.setItem('fromProjectPage', 'true')">
               <video autoplay muted loop class="project-media" playsinline preload="metadata">
                 <source src="media/potential.mov" type="video/mp4">
               </video>
-              <div class="project-description">Potential • After Effects</div>
-            </div>
+              <div class="project-description">Potential — After Effects</div>
+            </a>
             
             <div class="small-project">
-              <img src="media/qp.png" alt="QP Project" class="project-media" loading="lazy" decoding="async">
-              <div class="project-description">Calabi Yau • Blender</div>
+              <img src="media/qp-2.png" alt="QP Project 2" class="project-media" loading="lazy" decoding="async">
+              <div class="project-description">Quantum Medical Bed — Blender</div>
             </div>
             
             <div class="small-project">
@@ -79,7 +85,8 @@
             </div>
             
             <div class="small-project">
-              <div class="coming-soon">Coming Soon</div>
+              <img src="media/qp.png" alt="QP Project" class="project-media" loading="lazy" decoding="async">
+              <div class="project-description">Calabi Yau Manifold — Blender</div>
             </div>
           </div>
           
@@ -89,24 +96,28 @@
               <video autoplay muted loop class="project-media" playsinline preload="metadata">
                 <source src="media/Suisse.mov" type="video/mp4">
               </video>
-              <div class="project-description">Suisse, Specimen Guide</div>
+              <div class="project-description">Suisse Specimen Guide</div>
+            </div>
+            <div class="small-project">
+              <img src="media/jdvision.png" alt="John Deere Vision 2035" class="project-media" loading="lazy" decoding="async">
+              <div class="project-description">John Deere: Vision 2035 (WIP)</div>
             </div>
             <div class="small-project">
               <video autoplay muted loop class="project-media" playsinline preload="metadata">
                 <source src="media/Flower.mp4" type="video/mp4">
               </video>
-              <div class="project-description">Blossom • After Effects</div>
+              <div class="project-description">Blossom — After Effects</div>
             </div>
      
-            <div class="small-project">
-              <img src="media/qp-2.png" alt="QP Project 2" class="project-media" loading="lazy" decoding="async">
-              <div class="project-description">Quantum Medical Bed • Blender</div>
-            </div>
             <div class="small-project">
               <video autoplay muted loop class="project-media" playsinline preload="metadata">
                 <source src="media/starwars.mov" type="video/mp4">
               </video>
-              <div class="project-description">Star Wars • Unreal Engine 5</div>
+              <div class="project-description">Star Wars — Unreal Engine 5</div>
+            </div>
+            
+            <div class="small-project">
+              <div class="coming-soon">coming soon</div>
             </div>
           </div>
         </div>
@@ -116,23 +127,23 @@
     <!-- Bottom section - Fixed black bar with name and navigation -->
     <section class="bottom-section">
       <div class="bottom-content">
-        <h3 class="name">Leo Song • Product Designer</h3>
-        
-        <!-- Custom Scrollbar as block element -->
-        <div class="custom-scrollbar">
-          <div class="custom-scrollbar-thumb"></div>
-        </div>
+        <h3 class="name">Leo Song — interaction designer</h3>
         
         <div class="navigation-links">
           <div class="nav-group">
             <a href="mailto:shdsggz@gmail.com" class="nav-link">
               <span class="email-text">shdsggz@gmail.com</span>
             </a>
-            <a href="https://www.linkedin.com/in/songleoo/" class="nav-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="https://drive.google.com/file/d/1fSo9unZ1oddOOo8ICGo2KupYTmbDh-HS/view" class="nav-link" target="_blank" rel="noopener noreferrer">Resume</a>
+            <a href="https://www.linkedin.com/in/songleoo/" class="nav-link" target="_blank" rel="noopener noreferrer">linkedin</a>
+            <a href="https://drive.google.com/file/d/1fSo9unZ1oddOOo8ICGo2KupYTmbDh-HS/view" class="nav-link" target="_blank" rel="noopener noreferrer">resume</a>
             
           </div>
-          <span class="copyright">v3.0, 2025</span>
+          <span class="copyright">v3.0 in code_</span>
+        </div>
+        
+        <!-- Custom Scrollbar as block element -->
+        <div class="custom-scrollbar">
+          <div class="custom-scrollbar-thumb"></div>
         </div>
       </div>
     </section>

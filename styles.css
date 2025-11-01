@@ -5,17 +5,12 @@
 }
 
 body {
-  font-family: 'Figtree', 'Arial', sans-serif;
+  font-family: 'Inter', 'Arial', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000000;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 450px 450px;
-  background-position: center;
-  overflow-x: hidden; /* Allows vertical scrolling, hides horizontal body scroll */
-  font-size: 16px;
+  background-color: #ffffff;
+  overflow-x: hidden;
+  font-size: 14px;
 }
 
 .visually-hidden {
@@ -30,6 +25,38 @@ body {
   border: 0;
 }
 
+/* Loading Percentage Display */
+.loading-percentage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: #000000;
+  font-family: 'Inter', 'Arial', sans-serif;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.loading-percentage .percentage-number {
+  font-size: 14px;
+}
+
+.loading-percentage .percentage-name {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.loading-percentage.hidden {
+  opacity: 0;
+}
+
 /* Main Container */
 .main-container {
   height: 100vh;
@@ -37,29 +64,26 @@ body {
   flex-direction: column;
 }
 
-/* Portfolio Section - 86vh with horizontal scroll */
+/* Portfolio Section */
 .portfolio-section {
-  height: 86vh;
+  height: 88vh;
   overflow-x: auto;
   overflow-y: hidden;
   padding: 1rem;
-  /* Hide default scrollbar */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   scroll-behavior: auto;
 }
 
-/* Hide scrollbar for WebKit browsers */
 .portfolio-section::-webkit-scrollbar {
   display: none;
 }
 
-/* Custom Scrollbar Container - block element */
 .custom-scrollbar {
   position: relative;
   width: 100%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  height: 1.2px;
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   margin: 0.25rem 0;
   pointer-events: auto;
@@ -69,8 +93,20 @@ body {
 .custom-scrollbar-thumb {
   height: 100%;
   border-radius: 2px;
-  width: 100px; /* Initial width, will be calculated by JS */
+  width: 100px;
   will-change: transform;
+  opacity: 0;
+  background: transparent;
+  transition: opacity 0.4s ease;
+}
+
+.custom-scrollbar-thumb.progress-active {
+  opacity: 1;
+}
+
+.custom-scrollbar-thumb.scrollbar-active {
+  opacity: 1;
+  transition: opacity 0.4s ease;
 }
 
 /* Portfolio Layout */
@@ -80,22 +116,71 @@ body {
   height: 100%;
   min-width: max-content;
   align-items: center;
+  transform: translate3d(0, -5vh, 0);
+  opacity: 0;
+  transition: transform 1.2s cubic-bezier(0, 0, 0.2, 1), opacity 1.2s cubic-bezier(0, 0, 0.2, 1);
+  will-change: transform, opacity;
 }
 
-/* Large Project - Takes full 88vh */
+.portfolio-layout.animate-in {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
 .large-project {
   overflow: hidden;
   cursor: default;
   flex-shrink: 0;
   height: 100%;
+  max-height: 100%;
   width: auto;
+  min-width: 0;
   content-visibility: auto;
   contain: layout paint;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
 }
 
-/* Large Project with Padding - For specific projects that need background space */
+.large-project:active {
+  transform: scale(0.98);
+}
+
+.large-project.clickable {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease;
+  pointer-events: none;
+  position: relative;
+}
+
+.large-project.clickable::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.large-project.clickable.loaded {
+  pointer-events: auto;
+}
+
+.large-project.clickable:hover::before {
+  opacity: 1;
+}
+
 .large-project-with-padding {
-  /* Removed padding and background to fit content */
+  background-color: #ffffff;
 }
 
 /* Two Rows Container */
@@ -108,45 +193,91 @@ body {
   width: auto;
 }
 
-/* Top Row - 44vh minus gap */
 .top-row {
   display: flex;
   gap: 1rem;
   height: calc(50% - 0.5rem);
   align-items: center;
+  align-content: center;
 }
 
-/* Bottom Row - 44vh minus gap */
 .bottom-row {
   display: flex;
   gap: 1rem;
   height: calc(50% - 0.5rem);
   align-items: center;
+  align-content: center;
 }
 
-/* Small Projects */
 .small-project {
   background-color: #ffffff;
   overflow: hidden;
   cursor: default;
   flex-shrink: 0;
   height: 100%;
+  max-height: 100%;
   width: auto;
+  min-width: 0;
   content-visibility: auto;
   contain: layout paint;
-  border: 1px solid rgb(36, 36, 36);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.3s ease;
 }
 
+.small-project:active {
+  transform: scale(0.98);
+}
 
-/* Project Media */
+.small-project.clickable {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease;
+  pointer-events: none;
+  position: relative;
+}
+
+.small-project.clickable::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.small-project.clickable.loaded {
+  pointer-events: auto;
+}
+
+.small-project.clickable:hover::before {
+  opacity: 1;
+}
+
 .project-media {
-  width: 100%;
+  width: auto;
   height: 100%;
-  object-fit: contain;
+  max-width: none;
+  max-height: 100%;
   display: block;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  flex-shrink: 0;
+  object-position: center;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-/* Project hover description */
 .small-project,
 .large-project {
   position: relative;
@@ -156,12 +287,11 @@ body {
   position: absolute;
   bottom: 10px;
   left: 10px;
-  background-color: rgba(0, 0, 0, 0.9);
-  color: white;
-  padding: 10px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  border: 1px solid #626262;
+  background-color: rgba(255, 255, 255, 1);
+  color: black;
+  padding: 8px 10px;
+  border-radius: 2px;
+  font-size: 12px;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -177,38 +307,35 @@ body {
   transform: translateY(0);
 }
 
-/* Coming Soon styling */
 .coming-soon {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
   width: 100%;
-  color: #666;
+  color: #999;
   font-size: 14px;
   font-weight: 400;
   text-align: center;
-  background-color: #000000;
+  background-color: #ffffff;
   aspect-ratio: 1;
 }
 
-/* Remove white background from small-project container for Coming Soon */
 .small-project:has(.coming-soon) {
-  background-color: #000000;
-  border: 1px solid rgb(36, 36, 36);
+  background-color: #ffffff;
+  border: 1px solid rgb(219, 219, 219);
 }
 
-
-/* Bottom Section - Fixed black bar */
+/* Bottom Section */
 .bottom-section {
-  height: 14vh;
-  min-height: 14vh;
-  max-height: 14vh;
+  height: 12vh;
+  min-height: 12vh;
+  max-height: 12vh;
   background-color: transparent;
-  color: white;
+  color: black;
   display: flex;
-  align-items: flex-end;
-  padding: 0px 16px 16px 16px;
+  align-items: center;
+  padding: 16px;
   flex-shrink: 0;
   overflow: hidden;
   box-sizing: border-box;
@@ -218,10 +345,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-end;
+  justify-content: center;
   width: 100%;
   height: 100%;
-  padding: 0;
   gap: 0.5rem;
   box-sizing: border-box;
 }
@@ -229,8 +355,21 @@ body {
 .bottom-content .name {
   font-weight: 400;
   line-height: 1.1;
+  font-size: 14px;
+  transform: translate3d(0, 12px, 0);
+  opacity: 0;
+  transition: transform 1.2s cubic-bezier(0, 0, 0.2, 1), opacity 1.2s cubic-bezier(0, 0, 0.2, 1);
+  will-change: transform, opacity;
 }
 
+.bottom-content .name.animate-in {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+h3.name {
+  font-size: 14px;
+}
 
 /* Navigation Links */
 .navigation-links {
@@ -238,24 +377,29 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  transform: translate3d(0, 12px, 0);
+  opacity: 0;
+  transition: transform 1.2s cubic-bezier(0, 0, 0.2, 1), opacity 1.2s cubic-bezier(0, 0, 0.2, 1);
+  will-change: transform, opacity;
+  --nav-link-color: #a4a4a4;
+  --nav-link-hover-color: #000000;
+  --copyright-color: #a4a4a4;
+}
+
+.navigation-links.animate-in {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
 }
 
 .nav-group {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .nav-link {
-  color: #797979;
+  color: var(--nav-link-color);
   text-decoration: none;
   transition: color 0.2s ease;
-}
-
-.email-link {
-  overflow: hidden;
-  position: relative;
-  display: inline-block;
-  min-width: 150px; /* Fixed width to prevent size changes */
 }
 
 .email-text {
@@ -279,10 +423,149 @@ body {
 }
 
 .nav-link:hover {
-  color: white;
+  color: var(--nav-link-hover-color);
 }
 
 .copyright {
-  color: #626262;
+  color: var(--copyright-color);
+}
+
+/* Mobile - Convert horizontal scroll to vertical */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .main-container {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    display: block;
+  }
+
+  .portfolio-section {
+    overflow-x: hidden;
+    overflow-y: visible;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    padding: 8px 8px 80px 8px;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .portfolio-layout {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    min-width: auto;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .large-project {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 300px;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .two-rows-container {
+    width: 100%;
+    max-width: 100%;
+    gap: 8px;
+    box-sizing: border-box;
+  }
+
+  .top-row,
+  .bottom-row {
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+    gap: 8px;
+    box-sizing: border-box;
+  }
+
+  .small-project {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 200px;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* Coming soon box - 50% height on mobile */
+  .small-project:has(.coming-soon) {
+    min-height: 200px;
+    height: 100px;
+  }
+
+  .coming-soon {
+    aspect-ratio: unset;
+    height: 100%;
+  }
+
+  .project-media {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* Project descriptions always visible on mobile with transparency */
+  .project-description {
+    opacity: 1;
+    transform: translateY(0);
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 8px 10px;
+    font-size: 10px;
+    bottom: 6px;
+    left: 6px;
+  }
+
+  .custom-scrollbar {
+    display: none;
+  }
+
+  /* Navigation section fixed at bottom on mobile */
+  .bottom-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    z-index: 1000;
+    background-color: #ffffff;
+    padding: 16px;
+    box-shadow: none;
+    transform: translate3d(0, 12px, 0);
+    opacity: 1;
+    transition: transform 1.2s cubic-bezier(0, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  .bottom-section.animate-in {
+    transform: translate3d(0, 0, 0);
+  }
+
+
+  /* Keep loading percentage visible, hide progress bar visuals */
+  .custom-scrollbar-thumb {
+    display: none;
+  }
 }
 
