@@ -126,7 +126,9 @@ window.addEventListener('load', function () {
     let isProgressBarMode = true;
     let progressStartTime = null;
     let progressCompleteTime = null;
-    const easeInDuration = 1500;
+    let mediaLoadedCount = 0;
+    let totalMediaCount = 0;
+    let allMediaLoaded = false;
     const holdAt100Duration = 500;
     
     const portfolioLayout = document.querySelector('.portfolio-layout');
@@ -134,22 +136,136 @@ window.addEventListener('load', function () {
     const loadingPercentage = document.querySelector('.loading-percentage');
     const nameElement = document.querySelector('.bottom-content .name');
     
+    function loadMediaElements() {
+      const portfolioSection = document.querySelector('.portfolio-section');
+      if (!portfolioSection) return;
+      
+      const images = portfolioSection.querySelectorAll('img');
+      const videos = portfolioSection.querySelectorAll('video');
+      
+      totalMediaCount = images.length + videos.length;
+      mediaLoadedCount = 0;
+      allMediaLoaded = false;
+      
+      if (totalMediaCount === 0) {
+        allMediaLoaded = true;
+        currentProgress = 1.0;
+        return;
+      }
+      
+      let checkedImages = 0;
+      let checkedVideos = 0;
+      
+      images.forEach((img, index) => {
+        if (img.complete && img.naturalHeight !== 0) {
+          mediaLoadedCount++;
+          checkedImages++;
+          if (checkedImages === images.length && checkedVideos === videos.length) {
+            checkMediaProgress();
+          }
+        } else {
+          const handleLoad = () => {
+            if (!img.hasAttribute('data-loaded')) {
+              img.setAttribute('data-loaded', 'true');
+              mediaLoadedCount++;
+              checkMediaProgress();
+            }
+          };
+          const handleError = () => {
+            if (!img.hasAttribute('data-loaded')) {
+              img.setAttribute('data-loaded', 'true');
+              mediaLoadedCount++;
+              checkMediaProgress();
+            }
+          };
+          
+          img.addEventListener('load', handleLoad, { once: true });
+          img.addEventListener('error', handleError, { once: true });
+          
+          if (img.loading === 'lazy') {
+            img.loading = 'eager';
+          }
+          
+          checkedImages++;
+          if (checkedImages === images.length && checkedVideos === videos.length) {
+            checkMediaProgress();
+          }
+        }
+      });
+      
+      videos.forEach((video, index) => {
+        if (video.readyState >= 3) {
+          mediaLoadedCount++;
+          checkedVideos++;
+          if (checkedImages === images.length && checkedVideos === videos.length) {
+            checkMediaProgress();
+          }
+        } else {
+          const handleCanPlay = () => {
+            if (!video.hasAttribute('data-loaded')) {
+              video.setAttribute('data-loaded', 'true');
+              mediaLoadedCount++;
+              checkMediaProgress();
+            }
+          };
+          const handleError = () => {
+            if (!video.hasAttribute('data-loaded')) {
+              video.setAttribute('data-loaded', 'true');
+              mediaLoadedCount++;
+              checkMediaProgress();
+            }
+          };
+          
+          video.addEventListener('canplaythrough', handleCanPlay, { once: true });
+          video.addEventListener('loadeddata', handleCanPlay, { once: true });
+          video.addEventListener('error', handleError, { once: true });
+          
+          checkedVideos++;
+          if (checkedImages === images.length && checkedVideos === videos.length) {
+            checkMediaProgress();
+          }
+        }
+      });
+      
+      setTimeout(() => {
+        if (!allMediaLoaded && mediaLoadedCount < totalMediaCount) {
+          const remaining = totalMediaCount - mediaLoadedCount;
+          mediaLoadedCount += remaining;
+          checkMediaProgress();
+        }
+      }, 5000);
+    }
+    
+    function checkMediaProgress() {
+      if (mediaLoadedCount >= totalMediaCount && !allMediaLoaded) {
+        allMediaLoaded = true;
+      }
+    }
+    
     function updateProgressBar() {
-      const elapsed = progressStartTime ? performance.now() - progressStartTime : 0;
+      const mediaProgress = totalMediaCount > 0 ? mediaLoadedCount / totalMediaCount : 1;
       
-      const t = Math.min(1.0, elapsed / easeInDuration);
-      currentProgress = t * t * t;
+      if (allMediaLoaded) {
+        currentProgress = Math.min(1.0, currentProgress + 0.05);
+      } else {
+        currentProgress = Math.min(mediaProgress, currentProgress + 0.03);
+      }
       
-      const easedProgress = currentProgress;
-      const currentThumbWidth = 100 + (easedProgress * (scrollbarWidth - 100));
+      currentProgress = Math.min(1.0, Math.max(currentProgress, mediaProgress * 0.5));
+      
+      if (currentProgress >= 0.99 && allMediaLoaded) {
+        currentProgress = 1.0;
+      }
+      
+      const currentThumbWidth = 100 + (currentProgress * (scrollbarWidth - 100));
       customScrollbarThumb.style.width = currentThumbWidth + 'px';
       customScrollbarThumb.style.transform = 'translate3d(0, 0, 0)';
       
-      const scrollbarFilledWidth = easedProgress * scrollbarWidth;
+      const scrollbarFilledWidth = currentProgress * scrollbarWidth;
       const gradientPositionPercent = (scrollbarFilledWidth / currentThumbWidth) * 100;
       const clampedGradientPos = Math.min(100, gradientPositionPercent);
       
-      const targetPercentage = easedProgress * 100;
+      const targetPercentage = currentProgress * 100;
       const percentageDiff = targetPercentage - displayPercentage;
       if (Math.abs(percentageDiff) > 0.5) {
         displayPercentage += percentageDiff * 0.2;
@@ -174,22 +290,7 @@ window.addEventListener('load', function () {
         transparent ${Math.min(100, clampedGradientPos + 15)}%,
         transparent 100%)`;
       
-      if (elapsed >= easeInDuration) {
-        if (currentProgress < 1.0) {
-          currentProgress = 1.0;
-        }
-        if (displayPercentage < 100) {
-          displayPercentage = 100;
-          if (loadingPercentage) {
-            const percentageNumber = loadingPercentage.querySelector('.percentage-number');
-            if (percentageNumber) {
-              percentageNumber.textContent = '100%';
-            }
-          }
-        }
-        
-        customScrollbarThumb.style.width = scrollbarWidth + 'px';
-        
+      if (currentProgress >= 1.0 && allMediaLoaded) {
         if (!progressCompleteTime) {
           progressCompleteTime = performance.now();
         }
@@ -197,33 +298,7 @@ window.addEventListener('load', function () {
         const holdDuration = performance.now() - progressCompleteTime;
         
         if (holdDuration >= holdAt100Duration) {
-          isProgressBarMode = false;
-          
-          customScrollbarThumb.classList.remove('progress-active');
-          customScrollbarThumb.classList.add('scrollbar-active');
-          
-          if (loadingPercentage) {
-            loadingPercentage.classList.add('hidden');
-          }
-          
-          initializeScrollbar();
-          updateScrollbar();
-          
-          portfolioLayout.classList.add('animate-in');
-          navigationLinks.classList.add('animate-in');
-          if (nameElement) {
-            nameElement.classList.add('animate-in');
-          }
-          
-          const bottomSection = document.querySelector('.bottom-section');
-          if (bottomSection) {
-            bottomSection.classList.add('animate-in');
-          }
-          
-          const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
-          clickableProjects.forEach(project => {
-            project.classList.add('loaded');
-          });
+          completeProgressBar();
         } else {
           progressAnimationFrame = requestAnimationFrame(updateProgressBar);
         }
@@ -232,28 +307,95 @@ window.addEventListener('load', function () {
       }
     }
     
+    function completeProgressBar() {
+      isProgressBarMode = false;
+      
+      customScrollbarThumb.classList.remove('progress-active');
+      customScrollbarThumb.classList.add('scrollbar-active');
+      
+      if (loadingPercentage) {
+        loadingPercentage.classList.add('hidden');
+      }
+      
+      initializeScrollbar();
+      updateScrollbar();
+      
+      portfolioLayout.classList.add('animate-in');
+      navigationLinks.classList.add('animate-in');
+      if (nameElement) {
+        nameElement.classList.add('animate-in');
+      }
+      
+      const bottomSection = document.querySelector('.bottom-section');
+      if (bottomSection) {
+        bottomSection.classList.add('animate-in');
+      }
+      
+      const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
+      clickableProjects.forEach(project => {
+        project.classList.add('loaded');
+      });
+    }
+    
+    let retryCount = 0;
+    const maxRetries = 10;
+    
     function startProgressBarAnimation() {
       if (!customScrollbarThumb || !portfolioLayout || !navigationLinks) return;
       
       const isMobile = window.innerWidth <= 768;
       
+      if (isMobile) {
+        if (loadingPercentage) {
+          loadingPercentage.style.display = 'none';
+        }
+        if (customScrollbarThumb) {
+          customScrollbarThumb.style.display = 'none';
+        }
+        
+        portfolioLayout.classList.add('animate-in');
+        navigationLinks.classList.add('animate-in');
+        if (nameElement) {
+          nameElement.classList.add('animate-in');
+        }
+        
+        const bottomSection = document.querySelector('.bottom-section');
+        if (bottomSection) {
+          bottomSection.classList.add('animate-in');
+        }
+        
+        const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
+        clickableProjects.forEach(project => {
+          project.classList.add('loaded');
+        });
+        
+        return;
+      }
+      
       updateDimensions();
       
-      if (!isMobile) {
-        if (!scrollbarWidth || scrollbarWidth === 0) {
+      if (!scrollbarWidth || scrollbarWidth === 0) {
+        retryCount++;
+        if (retryCount < maxRetries) {
           setTimeout(() => {
             updateDimensions();
             if (scrollbarWidth > 0) {
+              retryCount = 0;
+              startProgressBarAnimation();
+            } else {
               startProgressBarAnimation();
             }
           }, 100);
           return;
+        } else {
+          scrollbarWidth = window.innerWidth || 800;
+          retryCount = 0;
         }
       } else {
-        if (!scrollbarWidth || scrollbarWidth === 0) {
-          scrollbarWidth = window.innerWidth || 375;
-        }
+        retryCount = 0;
       }
+      
+      loadMediaElements();
       
       const thumbWidth = 100;
       
@@ -277,6 +419,7 @@ window.addEventListener('load', function () {
       currentProgress = 0;
       displayPercentage = 0;
       progressStartTime = performance.now();
+      progressCompleteTime = null;
       
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -285,7 +428,6 @@ window.addEventListener('load', function () {
       });
     }
     
-    // Always show loading bar
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         startProgressBarAnimation();

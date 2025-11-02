@@ -175,6 +175,10 @@ body {
   pointer-events: auto;
 }
 
+.large-project.clickable:hover {
+  transform: scale(0.98);
+}
+
 .large-project.clickable:hover::before {
   opacity: 1;
 }
@@ -256,6 +260,10 @@ body {
 
 .small-project.clickable.loaded {
   pointer-events: auto;
+}
+
+.small-project.clickable:hover {
+  transform: scale(0.98);
 }
 
 .small-project.clickable:hover::before {
