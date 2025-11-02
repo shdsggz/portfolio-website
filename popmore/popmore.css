@@ -29,14 +29,15 @@ img {
 
 /* Sidebar */
 .sidebar {
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   width: 300px;
   height: 100vh;
   padding: 16px;
   overflow-y: auto;
-  background-color: #ffffff;
+  background-color: transparent;
+  z-index: 10;
 }
 
 .back-link-container {
@@ -107,24 +108,29 @@ img {
 /* Main Content */
 .main-content {
   flex: 1;
-  margin-left: 300px;
+  margin-left: 0;
   overflow-y: auto;
   height: 100vh;
+  width: 100%;
 }
 
 .content-container {
   margin: 0 auto;
-  padding: 56px 160px 200px 0px;
+  padding: 62px 160px 200px 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 200px;
-  max-width: 1211px;
+  max-width: none;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Hero Section */
 .hero-section {
   width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -395,6 +401,7 @@ img {
 
   .section-text {
     max-width: 100%;
+    padding: 0 24px;
   }
 
   .feature-section {
@@ -407,6 +414,7 @@ img {
 
   .feature-number {
     max-width: 100%;
+    padding: 0 24px;
   }
 
   .feature-video {
@@ -428,6 +436,7 @@ img {
 
   .section-title {
     max-width: 100%;
+    padding: 0 24px;
   }
 
   .section-text {
@@ -451,5 +460,7 @@ img {
 
   .disclaimer-title {
     max-width: 100%;
+    padding: 0 24px;
   }
 }
+
