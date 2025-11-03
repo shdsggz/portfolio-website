@@ -136,14 +136,30 @@ window.addEventListener('load', function () {
     const loadingPercentage = document.querySelector('.loading-percentage');
     const nameElement = document.querySelector('.bottom-content .name');
     
+    function isElementInViewport(element) {
+      const rect = element.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      
+      return (
+        rect.left < viewportWidth &&
+        rect.right > 0 &&
+        rect.top < viewportHeight &&
+        rect.bottom > 0
+      );
+    }
+    
     function loadMediaElements() {
       const portfolioSection = document.querySelector('.portfolio-section');
       if (!portfolioSection) return;
       
-      const images = portfolioSection.querySelectorAll('img');
-      const videos = portfolioSection.querySelectorAll('video');
+      const allImages = portfolioSection.querySelectorAll('img');
+      const allVideos = portfolioSection.querySelectorAll('video');
       
-      totalMediaCount = images.length + videos.length;
+      const viewableImages = Array.from(allImages).filter(img => isElementInViewport(img));
+      const viewableVideos = Array.from(allVideos).filter(video => isElementInViewport(video));
+      
+      totalMediaCount = viewableImages.length + viewableVideos.length;
       mediaLoadedCount = 0;
       allMediaLoaded = false;
       
@@ -156,11 +172,11 @@ window.addEventListener('load', function () {
       let checkedImages = 0;
       let checkedVideos = 0;
       
-      images.forEach((img, index) => {
+      viewableImages.forEach((img) => {
         if (img.complete && img.naturalHeight !== 0) {
           mediaLoadedCount++;
           checkedImages++;
-          if (checkedImages === images.length && checkedVideos === videos.length) {
+          if (checkedImages === viewableImages.length && checkedVideos === viewableVideos.length) {
             checkMediaProgress();
           }
         } else {
@@ -187,17 +203,17 @@ window.addEventListener('load', function () {
           }
           
           checkedImages++;
-          if (checkedImages === images.length && checkedVideos === videos.length) {
+          if (checkedImages === viewableImages.length && checkedVideos === viewableVideos.length) {
             checkMediaProgress();
           }
         }
       });
       
-      videos.forEach((video, index) => {
+      viewableVideos.forEach((video) => {
         if (video.readyState >= 3) {
           mediaLoadedCount++;
           checkedVideos++;
-          if (checkedImages === images.length && checkedVideos === videos.length) {
+          if (checkedImages === viewableImages.length && checkedVideos === viewableVideos.length) {
             checkMediaProgress();
           }
         } else {
@@ -221,7 +237,7 @@ window.addEventListener('load', function () {
           video.addEventListener('error', handleError, { once: true });
           
           checkedVideos++;
-          if (checkedImages === images.length && checkedVideos === videos.length) {
+          if (checkedImages === viewableImages.length && checkedVideos === viewableVideos.length) {
             checkMediaProgress();
           }
         }
@@ -233,7 +249,7 @@ window.addEventListener('load', function () {
           mediaLoadedCount += remaining;
           checkMediaProgress();
         }
-      }, 5000);
+      }, 3000);
     }
     
     function checkMediaProgress() {
