@@ -137,10 +137,22 @@ window.addEventListener('load', function () {
     const holdAt100Duration = 500;
     const maxLoadingDuration = 3000; // ms
     
+    // Loading messages - randomly selected once per loading session
+    const loadingMessages = ["loading...", "please wait...", "just a moment..."];
+    
     const portfolioLayout = document.querySelector('.portfolio-layout');
     const navigationLinks = document.querySelector('.navigation-links');
     const loadingPercentage = document.querySelector('.loading-percentage');
     const nameElement = document.querySelector('.bottom-content .name');
+    
+    // Set loading message immediately to prevent flicker
+    if (loadingPercentage) {
+      const percentageName = loadingPercentage.querySelector('.percentage-name');
+      if (percentageName) {
+        const randomMessage = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
+        percentageName.textContent = randomMessage;
+      }
+    }
     
     function isElementInViewport(element) {
       const portfolioSection = document.querySelector('.portfolio-section');

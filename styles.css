@@ -51,6 +51,8 @@ body {
 .loading-percentage .percentage-name {
   font-size: 14px;
   font-weight: 400;
+  min-height: 1em;
+  display: inline-block;
 }
 
 .loading-percentage.hidden {
