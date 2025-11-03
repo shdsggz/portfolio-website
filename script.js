@@ -20,7 +20,7 @@ window.addEventListener('load', function () {
       void customScrollbar.offsetHeight;
       scrollbarWidth = customScrollbar.getBoundingClientRect().width || customScrollbar.offsetWidth;
     }
-    
+
     function animateScrollbarThumb() {
       if (!scrollbarAnimating) return;
       
@@ -46,11 +46,11 @@ window.addEventListener('load', function () {
       
       const scrollLeft = portfolioSection.scrollLeft;
       const t = maxScroll > 0 ? scrollLeft / maxScroll : 0;
-      const p = Math.max(0, Math.min(1, t));
+        const p = Math.max(0, Math.min(1, t));
       
-      customScrollbarThumb.style.background = `linear-gradient(90deg,
-        transparent 0%,
-        transparent ${Math.max(0, (p - 0.3) * 100)}%,
+        customScrollbarThumb.style.background = `linear-gradient(90deg,
+          transparent 0%,
+          transparent ${Math.max(0, (p - 0.3) * 100)}%,
         rgba(0,0,0,0.1) ${Math.max(0, (p - 0.2) * 100)}%,
         rgba(0,0,0,0.4) ${Math.max(0, (p - 0.1) * 100)}%,
         rgba(0,0,0,0.7) ${Math.max(0, (p - 0.05) * 100)}%,
@@ -58,9 +58,9 @@ window.addEventListener('load', function () {
         rgba(0,0,0,0.7) ${Math.min(100, (p + 0.05) * 100)}%,
         rgba(0,0,0,0.4) ${Math.min(100, (p + 0.1) * 100)}%,
         rgba(0,0,0,0.1) ${Math.min(100, (p + 0.2) * 100)}%,
-        transparent ${Math.min(100, (p + 0.3) * 100)}%,
-        transparent 100%)`;
-    }
+          transparent ${Math.min(100, (p + 0.3) * 100)}%,
+          transparent 100%)`;
+      }
     
     function updateScrollbar() {
       if (isProgressBarMode) return;
@@ -94,11 +94,11 @@ window.addEventListener('load', function () {
 
     portfolioSection.addEventListener('wheel', (e) => {
       if (window.innerWidth > 768) {
-        e.preventDefault();
+      e.preventDefault();
         let scrollDelta = 0;
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
           scrollDelta = e.deltaX * 0.5;
-        } else {
+      } else {
           scrollDelta = e.deltaY * 0.5;
         }
         portfolioSection.scrollLeft += scrollDelta;
@@ -137,22 +137,10 @@ window.addEventListener('load', function () {
     const holdAt100Duration = 500;
     const maxLoadingDuration = 3000; // ms
     
-    // Loading messages - randomly selected once per loading session
-    const loadingMessages = ["loading...", "please wait...", "just a moment..."];
-    
     const portfolioLayout = document.querySelector('.portfolio-layout');
     const navigationLinks = document.querySelector('.navigation-links');
     const loadingPercentage = document.querySelector('.loading-percentage');
     const nameElement = document.querySelector('.bottom-content .name');
-    
-    // Set loading message immediately to prevent flicker
-    if (loadingPercentage) {
-      const percentageName = loadingPercentage.querySelector('.percentage-name');
-      if (percentageName) {
-        const randomMessage = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
-        percentageName.textContent = randomMessage;
-      }
-    }
     
     function isElementInViewport(element) {
       const portfolioSection = document.querySelector('.portfolio-section');
@@ -343,7 +331,7 @@ window.addEventListener('load', function () {
         rgba(0,0,0,0.1) ${Math.min(100, clampedGradientPos + 10)}%,
         transparent ${Math.min(100, clampedGradientPos + 15)}%,
         transparent 100%)`;
-      
+        
       if (shouldEndLoading()) {
         if (!progressCompleteTime) {
           progressCompleteTime = performance.now();
@@ -390,7 +378,7 @@ window.addEventListener('load', function () {
         project.classList.add('loaded');
       });
     }
-    
+
     let retryCount = 0;
     const maxRetries = 10;
     
@@ -439,7 +427,7 @@ window.addEventListener('load', function () {
             } else {
               startProgressBarAnimation();
             }
-          }, 100);
+    }, 100);
           return;
         } else {
           scrollbarWidth = window.innerWidth || 800;
