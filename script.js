@@ -95,7 +95,12 @@ window.addEventListener('load', function () {
     portfolioSection.addEventListener('wheel', (e) => {
       if (window.innerWidth > 768) {
         e.preventDefault();
-        const scrollDelta = e.deltaY * 0.5;
+        let scrollDelta = 0;
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+          scrollDelta = e.deltaX * 0.5;
+        } else {
+          scrollDelta = e.deltaY * 0.5;
+        }
         portfolioSection.scrollLeft += scrollDelta;
       }
     }, { passive: false });
@@ -137,15 +142,25 @@ window.addEventListener('load', function () {
     const nameElement = document.querySelector('.bottom-content .name');
     
     function isElementInViewport(element) {
-      const rect = element.getBoundingClientRect();
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
+      const portfolioSection = document.querySelector('.portfolio-section');
+      if (!portfolioSection) {
+        const rect = element.getBoundingClientRect();
+        return (
+          rect.left < window.innerWidth &&
+          rect.right > 0 &&
+          rect.top < window.innerHeight &&
+          rect.bottom > 0
+        );
+      }
+      
+      const portfolioRect = portfolioSection.getBoundingClientRect();
+      const elementRect = element.getBoundingClientRect();
       
       return (
-        rect.left < viewportWidth &&
-        rect.right > 0 &&
-        rect.top < viewportHeight &&
-        rect.bottom > 0
+        elementRect.left < portfolioRect.right &&
+        elementRect.right > portfolioRect.left &&
+        elementRect.top < portfolioRect.bottom &&
+        elementRect.bottom > portfolioRect.top
       );
     }
     
