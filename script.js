@@ -168,6 +168,13 @@ window.addEventListener('load', function () {
       const portfolioSection = document.querySelector('.portfolio-section');
       if (!portfolioSection) return;
       
+      const loadingStartTime = performance.now();
+      if (progressStartTime) {
+        console.log('[Loading] Started loading viewable media at', (loadingStartTime - progressStartTime).toFixed(2) + 'ms');
+      } else {
+        console.log('[Loading] Started loading viewable media at', loadingStartTime.toFixed(2) + 'ms');
+      }
+      
       const allImages = portfolioSection.querySelectorAll('img');
       const allVideos = portfolioSection.querySelectorAll('video');
       
@@ -177,6 +184,14 @@ window.addEventListener('load', function () {
       totalMediaCount = viewableImages.length + viewableVideos.length;
       mediaLoadedCount = 0;
       allMediaLoaded = false;
+      
+      console.log('[Loading] Viewable media detected:', {
+        images: viewableImages.length,
+        videos: viewableVideos.length,
+        total: totalMediaCount,
+        allImages: allImages.length,
+        allVideos: allVideos.length
+      });
       
       if (totalMediaCount === 0) {
         allMediaLoaded = true;
@@ -270,6 +285,8 @@ window.addEventListener('load', function () {
     function checkMediaProgress() {
       if (mediaLoadedCount >= totalMediaCount && !allMediaLoaded) {
         allMediaLoaded = true;
+        const mediaLoadTime = performance.now() - progressStartTime;
+        console.log('[Loading] All viewable media loaded at', mediaLoadTime.toFixed(2) + 'ms', `(${mediaLoadedCount}/${totalMediaCount})`);
       }
     }
     
@@ -339,6 +356,9 @@ window.addEventListener('load', function () {
     }
     
     function completeProgressBar() {
+      const totalLoadTime = performance.now() - progressStartTime;
+      console.log('[Loading] Progress bar completed in', totalLoadTime.toFixed(2) + 'ms');
+      
       isProgressBarMode = false;
       
       customScrollbarThumb.classList.remove('progress-active');
@@ -452,6 +472,8 @@ window.addEventListener('load', function () {
       progressStartTime = performance.now();
       progressCompleteTime = null;
       
+      console.log('[Loading] Progress bar animation started at', progressStartTime.toFixed(2) + 'ms');
+      
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           updateProgressBar();
@@ -459,9 +481,64 @@ window.addEventListener('load', function () {
       });
     }
     
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        startProgressBarAnimation();
+    // LOADING COMMENTED OUT - Show content immediately
+    // requestAnimationFrame(() => {
+    //   requestAnimationFrame(() => {
+    //     startProgressBarAnimation();
+    //   });
+    // });
+    
+    // Show content immediately
+    if (window.innerWidth > 768) {
+      updateDimensions();
+      initializeScrollbar();
+      
+      if (loadingPercentage) {
+        loadingPercentage.classList.add('hidden');
+      }
+      
+      isProgressBarMode = false;
+      customScrollbarThumb.classList.remove('progress-active');
+      customScrollbarThumb.classList.add('scrollbar-active');
+      
+      portfolioLayout.classList.add('animate-in');
+      navigationLinks.classList.add('animate-in');
+      if (nameElement) {
+        nameElement.classList.add('animate-in');
+      }
+      
+      const bottomSection = document.querySelector('.bottom-section');
+      if (bottomSection) {
+        bottomSection.classList.add('animate-in');
+      }
+      
+      const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
+      clickableProjects.forEach(project => {
+        project.classList.add('loaded');
       });
-    });
+    } else {
+      // Mobile
+      if (loadingPercentage) {
+        loadingPercentage.style.display = 'none';
+      }
+      if (customScrollbarThumb) {
+        customScrollbarThumb.style.display = 'none';
+      }
+      
+      portfolioLayout.classList.add('animate-in');
+      navigationLinks.classList.add('animate-in');
+      if (nameElement) {
+        nameElement.classList.add('animate-in');
+      }
+      
+      const bottomSection = document.querySelector('.bottom-section');
+      if (bottomSection) {
+        bottomSection.classList.add('animate-in');
+      }
+      
+      const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
+      clickableProjects.forEach(project => {
+        project.classList.add('loaded');
+      });
+    }
 });
