@@ -135,6 +135,7 @@ window.addEventListener('load', function () {
     let totalMediaCount = 0;
     let allMediaLoaded = false;
     const holdAt100Duration = 500;
+    const maxLoadingDuration = 3000; // ms
     
     const portfolioLayout = document.querySelector('.portfolio-layout');
     const navigationLinks = document.querySelector('.navigation-links');
@@ -273,24 +274,34 @@ window.addEventListener('load', function () {
       }
     }
     
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+    
+    function shouldEndLoading() {
+      const elapsed = performance.now() - progressStartTime;
+      return allMediaLoaded || elapsed > maxLoadingDuration;
+    }
+    
     function updateProgressBar() {
-      const mediaProgress = totalMediaCount > 0 ? mediaLoadedCount / totalMediaCount : 1;
+      // logical progress based on load
+      const logicalProgress = totalMediaCount > 0 ? mediaLoadedCount / totalMediaCount : 1;
       
-      if (allMediaLoaded) {
-        currentProgress = Math.min(1.0, currentProgress + 0.05);
-      } else {
-        currentProgress = Math.min(mediaProgress, currentProgress + 0.03);
-      }
+      // visual progress eases towards logical
+      currentProgress += (logicalProgress - currentProgress) * 0.08; // 0.08 = easing factor
+      currentProgress = Math.min(1.0, Math.max(0, currentProgress));
       
-      currentProgress = Math.min(1.0, Math.max(currentProgress, mediaProgress * 0.5));
-      
-      if (currentProgress >= 0.99 && allMediaLoaded) {
-        currentProgress = 1.0;
-      }
-      
-      const currentThumbWidth = 100 + (currentProgress * (scrollbarWidth - 100));
+      const easedProgress = easeOutCubic(currentProgress);
+      const currentThumbWidth = 100 + (easedProgress * (scrollbarWidth - 100));
       customScrollbarThumb.style.width = currentThumbWidth + 'px';
-      customScrollbarThumb.style.transform = 'translate3d(0, 0, 0)';
+      
+      // Optional visual anticipation boost - pulse during loading
+      if (isProgressBarMode) {
+        const pulse = Math.sin(performance.now() / 300) * 0.05;
+        customScrollbarThumb.style.transform = `translate3d(0, 0, 0) scaleY(${1 + pulse})`;
+      } else {
+        customScrollbarThumb.style.transform = 'translate3d(0, 0, 0)';
+      }
       
       const scrollbarFilledWidth = currentProgress * scrollbarWidth;
       const gradientPositionPercent = (scrollbarFilledWidth / currentThumbWidth) * 100;
@@ -321,7 +332,7 @@ window.addEventListener('load', function () {
         transparent ${Math.min(100, clampedGradientPos + 15)}%,
         transparent 100%)`;
       
-      if (currentProgress >= 1.0 && allMediaLoaded) {
+      if (shouldEndLoading()) {
         if (!progressCompleteTime) {
           progressCompleteTime = performance.now();
         }
