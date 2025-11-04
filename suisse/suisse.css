@@ -127,15 +127,14 @@ img {
 }
 
 .content-container {
-  margin: 0;
-  padding: 62px 160px 200px 0;
-  margin-left: 300px;
+  margin: 0 auto;
+  padding: 62px 160px 200px 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 200px;
   max-width: none;
-  width: calc(100% - 300px);
+  width: 100%;
   box-sizing: border-box;
 }
 
