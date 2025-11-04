@@ -92,6 +92,7 @@ img {
   color: #000000;
 }
 
+.breadcrumb-link[href="./"],
 .breadcrumb-link[href="index.html"] {
   color: #000000;
 }
