@@ -63,8 +63,6 @@ window.addEventListener('load', function () {
       }
     
     function updateScrollbar() {
-      if (isProgressBarMode) return;
-      
       updateDimensions();
       
       const scrollLeft = portfolioSection.scrollLeft;
@@ -124,286 +122,15 @@ window.addEventListener('load', function () {
       updateScrollbar();
     }, { passive: true });
 
-    // Progress Bar
-    let currentProgress = 0;
-    let displayPercentage = 0;
-    let progressAnimationFrame = null;
-    let isProgressBarMode = true;
-    let progressStartTime = null;
-    let progressCompleteTime = null;
-    let mediaLoadedCount = 0;
-    let totalMediaCount = 0;
-    let allMediaLoaded = false;
-    const holdAt100Duration = 500;
-    const maxLoadingDuration = 3000; // ms
-    
-    const portfolioLayout = document.querySelector('.portfolio-layout');
-    const navigationLinks = document.querySelector('.navigation-links');
-    const loadingPercentage = document.querySelector('.loading-percentage');
-    const nameElement = document.querySelector('.bottom-content .name');
-    
-    function isElementInViewport(element) {
-      const portfolioSection = document.querySelector('.portfolio-section');
-      if (!portfolioSection) {
-        const rect = element.getBoundingClientRect();
-        return (
-          rect.left < window.innerWidth &&
-          rect.right > 0 &&
-          rect.top < window.innerHeight &&
-          rect.bottom > 0
-        );
-      }
-      
-      const portfolioRect = portfolioSection.getBoundingClientRect();
-      const elementRect = element.getBoundingClientRect();
-      
-      return (
-        elementRect.left < portfolioRect.right &&
-        elementRect.right > portfolioRect.left &&
-        elementRect.top < portfolioRect.bottom &&
-        elementRect.bottom > portfolioRect.top
-      );
-    }
-    
-    function loadMediaElements() {
-      const portfolioSection = document.querySelector('.portfolio-section');
-      if (!portfolioSection) return;
-      
-      const allImages = portfolioSection.querySelectorAll('img');
-      const allVideos = portfolioSection.querySelectorAll('video');
-      
-      const viewableImages = Array.from(allImages).filter(img => isElementInViewport(img));
-      const viewableVideos = Array.from(allVideos).filter(video => isElementInViewport(video));
-      
-      totalMediaCount = viewableImages.length + viewableVideos.length;
-      mediaLoadedCount = 0;
-      allMediaLoaded = false;
-      
-      if (totalMediaCount === 0) {
-        allMediaLoaded = true;
-        currentProgress = 1.0;
-        return;
-      }
-      
-      let checkedImages = 0;
-      let checkedVideos = 0;
-      
-      viewableImages.forEach((img) => {
-        if (img.complete && img.naturalHeight !== 0) {
-          mediaLoadedCount++;
-          checkedImages++;
-          if (checkedImages === viewableImages.length && checkedVideos === viewableVideos.length) {
-            checkMediaProgress();
-          }
-        } else {
-          const handleLoad = () => {
-            if (!img.hasAttribute('data-loaded')) {
-              img.setAttribute('data-loaded', 'true');
-              mediaLoadedCount++;
-              checkMediaProgress();
-            }
-          };
-          const handleError = () => {
-            if (!img.hasAttribute('data-loaded')) {
-              img.setAttribute('data-loaded', 'true');
-              mediaLoadedCount++;
-              checkMediaProgress();
-            }
-          };
-          
-          img.addEventListener('load', handleLoad, { once: true });
-          img.addEventListener('error', handleError, { once: true });
-          
-          if (img.loading === 'lazy') {
-            img.loading = 'eager';
-          }
-          
-          checkedImages++;
-          if (checkedImages === viewableImages.length && checkedVideos === viewableVideos.length) {
-            checkMediaProgress();
-          }
-        }
-      });
-      
-      viewableVideos.forEach((video) => {
-        if (video.readyState >= 3) {
-          mediaLoadedCount++;
-          checkedVideos++;
-          if (checkedImages === viewableImages.length && checkedVideos === viewableVideos.length) {
-            checkMediaProgress();
-          }
-        } else {
-          const handleCanPlay = () => {
-            if (!video.hasAttribute('data-loaded')) {
-              video.setAttribute('data-loaded', 'true');
-              mediaLoadedCount++;
-              checkMediaProgress();
-            }
-          };
-          const handleError = () => {
-            if (!video.hasAttribute('data-loaded')) {
-              video.setAttribute('data-loaded', 'true');
-              mediaLoadedCount++;
-              checkMediaProgress();
-            }
-          };
-          
-          video.addEventListener('canplaythrough', handleCanPlay, { once: true });
-          video.addEventListener('loadeddata', handleCanPlay, { once: true });
-          video.addEventListener('error', handleError, { once: true });
-          
-          checkedVideos++;
-          if (checkedImages === viewableImages.length && checkedVideos === viewableVideos.length) {
-            checkMediaProgress();
-          }
-        }
-      });
-      
-      setTimeout(() => {
-        if (!allMediaLoaded && mediaLoadedCount < totalMediaCount) {
-          const remaining = totalMediaCount - mediaLoadedCount;
-          mediaLoadedCount += remaining;
-          checkMediaProgress();
-        }
-      }, 3000);
-    }
-    
-    function checkMediaProgress() {
-      if (mediaLoadedCount >= totalMediaCount && !allMediaLoaded) {
-        allMediaLoaded = true;
-      }
-    }
-    
-    function easeOutCubic(t) {
-      return 1 - Math.pow(1 - t, 3);
-    }
-    
-    function shouldEndLoading() {
-      const elapsed = performance.now() - progressStartTime;
-      return allMediaLoaded || elapsed > maxLoadingDuration;
-    }
-    
-    function updateProgressBar() {
-      // logical progress based on load
-      const logicalProgress = totalMediaCount > 0 ? mediaLoadedCount / totalMediaCount : 1;
-      
-      // visual progress eases towards logical
-      currentProgress += (logicalProgress - currentProgress) * 0.08; // 0.08 = easing factor
-      currentProgress = Math.min(1.0, Math.max(0, currentProgress));
-      
-      const easedProgress = easeOutCubic(currentProgress);
-      const currentThumbWidth = 100 + (easedProgress * (scrollbarWidth - 100));
-      customScrollbarThumb.style.width = currentThumbWidth + 'px';
-      
-      // Optional visual anticipation boost - pulse during loading
-      if (isProgressBarMode) {
-        const pulse = Math.sin(performance.now() / 300) * 0.05;
-        customScrollbarThumb.style.transform = `translate3d(0, 0, 0) scaleY(${1 + pulse})`;
-      } else {
-        customScrollbarThumb.style.transform = 'translate3d(0, 0, 0)';
-      }
-      
-      const scrollbarFilledWidth = currentProgress * scrollbarWidth;
-      const gradientPositionPercent = (scrollbarFilledWidth / currentThumbWidth) * 100;
-      const clampedGradientPos = Math.min(100, gradientPositionPercent);
-      
-      const targetPercentage = currentProgress * 100;
-      const percentageDiff = targetPercentage - displayPercentage;
-      if (Math.abs(percentageDiff) > 0.5) {
-        displayPercentage += percentageDiff * 0.2;
-      } else {
-        displayPercentage = targetPercentage;
-      }
-      
-      if (loadingPercentage) {
-        const percentageNumber = loadingPercentage.querySelector('.percentage-number');
-        if (percentageNumber) {
-          const roundedPercentage = Math.round(displayPercentage);
-          percentageNumber.textContent = `${roundedPercentage}%`;
-        }
-      }
-      
-      customScrollbarThumb.style.background = `linear-gradient(90deg,
-        #000000 0%,
-        #000000 ${clampedGradientPos}%,
-        rgba(0,0,0,0.9) ${Math.min(100, clampedGradientPos + 2)}%,
-        rgba(0,0,0,0.5) ${Math.min(100, clampedGradientPos + 5)}%,
-        rgba(0,0,0,0.1) ${Math.min(100, clampedGradientPos + 10)}%,
-        transparent ${Math.min(100, clampedGradientPos + 15)}%,
-        transparent 100%)`;
-        
-      if (shouldEndLoading()) {
-        if (!progressCompleteTime) {
-          progressCompleteTime = performance.now();
-        }
-        
-        const holdDuration = performance.now() - progressCompleteTime;
-        
-        if (holdDuration >= holdAt100Duration) {
-          completeProgressBar();
-        } else {
-          progressAnimationFrame = requestAnimationFrame(updateProgressBar);
-        }
-      } else {
-        progressAnimationFrame = requestAnimationFrame(updateProgressBar);
-      }
-    }
-    
-    function completeProgressBar() {
-      isProgressBarMode = false;
-      
-      customScrollbarThumb.classList.remove('progress-active');
-      customScrollbarThumb.classList.add('scrollbar-active');
-      
-      if (loadingPercentage) {
-        loadingPercentage.classList.add('hidden');
-      }
-      
-      initializeScrollbar();
-      updateScrollbar();
-      
-      portfolioLayout.classList.add('animate-in');
-      navigationLinks.classList.add('animate-in');
-      if (nameElement) {
-        nameElement.classList.add('animate-in');
-      }
-      
-      const bottomSection = document.querySelector('.bottom-section');
-      if (bottomSection) {
-        bottomSection.classList.add('animate-in');
-      }
-      
-      const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
-      clickableProjects.forEach(project => {
-        project.classList.add('loaded');
-      });
-    }
-
-    let retryCount = 0;
-    const maxRetries = 10;
-    
-    function startProgressBarAnimation() {
-      if (!customScrollbarThumb || !portfolioLayout || !navigationLinks) return;
+    // Initialize content immediately (no animations)
+    function initializeContent() {
+      if (!customScrollbarThumb) return;
       
       const isMobile = window.innerWidth <= 768;
       
       if (isMobile) {
-        if (loadingPercentage) {
-          loadingPercentage.style.display = 'none';
-        }
         if (customScrollbarThumb) {
           customScrollbarThumb.style.display = 'none';
-        }
-        
-        portfolioLayout.classList.add('animate-in');
-        navigationLinks.classList.add('animate-in');
-        if (nameElement) {
-          nameElement.classList.add('animate-in');
-        }
-        
-        const bottomSection = document.querySelector('.bottom-section');
-        if (bottomSection) {
-          bottomSection.classList.add('animate-in');
         }
         
         const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
@@ -417,62 +144,20 @@ window.addEventListener('load', function () {
       updateDimensions();
       
       if (!scrollbarWidth || scrollbarWidth === 0) {
-        retryCount++;
-        if (retryCount < maxRetries) {
-          setTimeout(() => {
-            updateDimensions();
-            if (scrollbarWidth > 0) {
-              retryCount = 0;
-              startProgressBarAnimation();
-            } else {
-              startProgressBarAnimation();
-            }
-    }, 100);
-          return;
-        } else {
-          scrollbarWidth = window.innerWidth || 800;
-          retryCount = 0;
-        }
-      } else {
-        retryCount = 0;
+        scrollbarWidth = window.innerWidth || 800;
       }
       
-      loadMediaElements();
+      customScrollbarThumb.classList.remove('progress-active');
+      customScrollbarThumb.classList.add('scrollbar-active');
       
-      const thumbWidth = 100;
+      initializeScrollbar();
+      updateScrollbar();
       
-      customScrollbarThumb.style.width = thumbWidth + 'px';
-      customScrollbarThumb.style.transform = 'translate3d(0, 0, 0)';
-      
-      customScrollbarThumb.classList.add('progress-active');
-      customScrollbarThumb.style.background = `linear-gradient(90deg,
-        transparent 0%,
-        transparent 0%,
-        rgba(0,0,0,0.1) 0%,
-        rgba(0,0,0,0.4) 0%,
-        rgba(0,0,0,0.7) 0%,
-        #000000 0%,
-        rgba(0,0,0,0.7) 5%,
-        rgba(0,0,0,0.4) 10%,
-        rgba(0,0,0,0.1) 20%,
-        transparent 30%,
-        transparent 100%)`;
-      
-      currentProgress = 0;
-      displayPercentage = 0;
-      progressStartTime = performance.now();
-      progressCompleteTime = null;
-      
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          updateProgressBar();
-        });
+      const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
+      clickableProjects.forEach(project => {
+        project.classList.add('loaded');
       });
     }
     
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        startProgressBarAnimation();
-      });
-    });
+    initializeContent();
 });
