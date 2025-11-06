@@ -56,6 +56,31 @@ img {
   color: #000000;
   text-decoration: none;
   transition: color 0.2s ease;
+  font-size: 12px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.sidebar-nav .nav-link {
+  color: #a4a4a4;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.sidebar-nav .nav-link:hover {
+  color: #000000;
+}
+
+.sidebar-nav .email-text {
+  display: block;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
 }
 
 .back-link:hover {
@@ -78,7 +103,7 @@ img {
 
 .breadcrumb-link,
 .back-link {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
 }
 

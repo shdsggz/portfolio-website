@@ -8,9 +8,9 @@ body {
   font-family: 'Inter', 'Arial', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ffffff;
+  background-color: #f6f6f8;
   overflow-x: hidden;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .visually-hidden {
@@ -67,53 +67,24 @@ body {
 
 /* Portfolio Section */
 .portfolio-section {
-  height: 88vh;
+  flex: 1;
   overflow-x: auto;
-  overflow-y: hidden;
-  padding: 1rem;
+  overflow-y: auto;
+  padding: 2px;
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-behavior: auto;
+  min-height: 0;
 }
 
 .portfolio-section::-webkit-scrollbar {
   display: none;
 }
 
-.custom-scrollbar {
-  position: relative;
-  width: 100%;
-  height: 1.2px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 2px;
-  margin: 0.25rem 0;
-  pointer-events: auto;
-}
-
-/* Custom Scrollbar Thumb */
-.custom-scrollbar-thumb {
-  height: 100%;
-  border-radius: 2px;
-  width: 100px;
-  will-change: transform;
-  opacity: 0;
-  background: transparent;
-  transition: opacity 0.4s ease;
-}
-
-.custom-scrollbar-thumb.progress-active {
-  opacity: 1;
-}
-
-.custom-scrollbar-thumb.scrollbar-active {
-  opacity: 1;
-  transition: opacity 0.4s ease;
-}
-
 /* Portfolio Layout */
 .portfolio-layout {
   display: flex;
-  gap: 1rem;
+  gap: 2px;
   height: 100%;
   min-width: max-content;
   align-items: center;
@@ -136,6 +107,7 @@ body {
   align-items: center;
   justify-content: center;
   transition: transform 0.3s ease;
+  border-radius: 2px;
 }
 
 .large-project:active {
@@ -148,33 +120,26 @@ body {
   color: inherit;
   pointer-events: none;
   position: relative;
-  transition: transform 0.3s ease;
-}
-
-.large-project.clickable::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.1);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
 }
 
 .large-project.clickable.loaded {
   pointer-events: auto;
+  cursor: pointer;
+}
+
+.large-project.clickable.loaded .project-media {
+  cursor: pointer;
+}
+
+.large-project.clickable.loaded * {
+  cursor: pointer;
 }
 
 .large-project.clickable:hover {
   transform: scale(0.98);
-}
-
-.large-project.clickable:hover::before {
-  opacity: 1;
+  opacity: 0.9;
 }
 
 .large-project-with-padding {
@@ -185,7 +150,7 @@ body {
 .two-rows-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2px;
   height: 100%;
   flex-shrink: 0;
   width: auto;
@@ -193,16 +158,16 @@ body {
 
 .top-row {
   display: flex;
-  gap: 1rem;
-  height: calc(50% - 0.5rem);
+  gap: 2px;
+  height: calc(50% - 1px);
   align-items: center;
   align-content: center;
 }
 
 .bottom-row {
   display: flex;
-  gap: 1rem;
-  height: calc(50% - 0.5rem);
+  gap: 2px;
+  height: calc(50% - 1px);
   align-items: center;
   align-content: center;
 }
@@ -223,6 +188,7 @@ body {
   justify-content: center;
   position: relative;
   transition: transform 0.3s ease;
+  border-radius: 2px;
 }
 
 .small-project:active {
@@ -235,33 +201,26 @@ body {
   color: inherit;
   pointer-events: none;
   position: relative;
-  transition: transform 0.3s ease;
-}
-
-.small-project.clickable::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.1);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
 }
 
 .small-project.clickable.loaded {
   pointer-events: auto;
+  cursor: pointer;
+}
+
+.small-project.clickable.loaded .project-media {
+  cursor: pointer;
+}
+
+.small-project.clickable.loaded * {
+  cursor: pointer;
 }
 
 .small-project.clickable:hover {
   transform: scale(0.98);
-}
-
-.small-project.clickable:hover::before {
-  opacity: 1;
+  opacity: 0.9;
 }
 
 .project-media {
@@ -287,15 +246,15 @@ body {
 
 .project-description {
   position: absolute;
-  bottom: 10px;
+  top: 10px;
   left: 10px;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 0.9);
   color: black;
-  padding: 8px 10px;
+  padding: 6px 8px;
   border-radius: 2px;
   font-size: 12px;
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(-10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
   z-index: 10;
@@ -319,24 +278,25 @@ body {
   font-size: 14px;
   font-weight: 400;
   text-align: center;
-  background-color: #ffffff;
+  background-color: transparent;
   aspect-ratio: 1;
 }
 
 .small-project:has(.coming-soon) {
-  background-color: #ffffff;
+  background-color: transparent;
   border: 1px solid rgb(219, 219, 219);
 }
 
-/* Bottom Section */
-.bottom-section {
-  height: 12vh;
-  min-height: 12vh;
-  max-height: 12vh;
+/* Top Section */
+.top-section {
+  height: 33vh;
+  min-height: 33vh;
+  max-height: 33vh;
   background-color: transparent;
   color: black;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   padding: 16px;
   flex-shrink: 0;
   overflow: hidden;
@@ -347,30 +307,31 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   height: 100%;
-  gap: 0.5rem;
+  gap: 1rem;
   box-sizing: border-box;
 }
 
 .bottom-content .name {
   font-weight: 400;
   line-height: 1.1;
-  font-size: 14px;
+  font-size: 12px;
   transform: translate3d(0, 0, 0);
   opacity: 1;
 }
 
 h3.name {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /* Navigation Links */
 .navigation-links {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   transform: translate3d(0, 0, 0);
   opacity: 1;
@@ -381,7 +342,18 @@ h3.name {
 
 .nav-group {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-group-right {
+  align-items: flex-end;
+}
+
+.nav-text {
+  color: var(--nav-link-color, #a4a4a4);
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .nav-link {
@@ -434,13 +406,28 @@ h3.name {
     display: block;
   }
 
+  .top-section {
+    height: auto;
+    min-height: auto;
+    max-height: none;
+  }
+
+  .nav-link,
+  .nav-text {
+    font-size: 14px;
+  }
+
+  .bottom-content .name {
+    font-size: 14px;
+  }
+
   .portfolio-section {
     overflow-x: hidden;
     overflow-y: visible;
     height: auto;
     min-height: auto;
     max-height: none;
-    padding: 8px 8px 80px 8px;
+    padding: 4px;
     position: relative;
     width: 100%;
     box-sizing: border-box;
@@ -449,7 +436,7 @@ h3.name {
   .portfolio-layout {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
+    gap: 4px;
     min-width: auto;
     width: 100%;
     max-width: 100%;
@@ -460,7 +447,6 @@ h3.name {
     width: 100%;
     max-width: 100%;
     height: auto;
-    min-height: 300px;
     margin: 0;
     box-sizing: border-box;
     overflow: hidden;
@@ -469,7 +455,7 @@ h3.name {
   .two-rows-container {
     width: 100%;
     max-width: 100%;
-    gap: 8px;
+    gap: 4px;
     box-sizing: border-box;
   }
 
@@ -479,7 +465,7 @@ h3.name {
     height: auto;
     width: 100%;
     max-width: 100%;
-    gap: 8px;
+    gap: 4px;
     box-sizing: border-box;
   }
 
@@ -487,15 +473,13 @@ h3.name {
     width: 100%;
     max-width: 100%;
     height: auto;
-    min-height: 200px;
     margin: 0;
     box-sizing: border-box;
     overflow: hidden;
   }
 
   .small-project:has(.coming-soon) {
-    min-height: 200px;
-    height: 100px;
+    height: auto;
   }
 
   .coming-soon {
@@ -511,16 +495,6 @@ h3.name {
   }
 
   .project-description {
-    opacity: 1;
-    transform: translateY(0);
-    background-color: rgba(255, 255, 255, 0.85);
-    padding: 8px 10px;
-    font-size: 10px;
-    bottom: 6px;
-    left: 6px;
-  }
-
-  .custom-scrollbar {
     display: none;
   }
 
@@ -542,8 +516,5 @@ h3.name {
   }
 
 
-  .custom-scrollbar-thumb {
-    display: none;
-  }
 }
 

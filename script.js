@@ -1,163 +1,132 @@
 window.addEventListener('load', function () {
     const portfolioSection = document.querySelector('.portfolio-section');
-    const customScrollbar = document.querySelector('.custom-scrollbar');
-    const customScrollbarThumb = document.querySelector('.custom-scrollbar-thumb');
-    if (!portfolioSection || !customScrollbar || !customScrollbarThumb) {
-      console.error('Required elements not found'); return;
+    if (!portfolioSection) {
+      console.error('Portfolio section not found'); return;
     }
 
-    let scrollWidth = 0, clientWidth = 0, maxScroll = 0, scrollbarWidth = 0;
-    
-    let currentThumbPos = 0;
-    let targetThumbPos = 0;
-    let scrollbarAnimating = false;
-    let scrollbarAnimationFrame = null;
-    
-    function updateDimensions() {
-      scrollWidth = portfolioSection.scrollWidth;
-      clientWidth = portfolioSection.clientWidth;
-      maxScroll = Math.max(0, scrollWidth - clientWidth);
-      void customScrollbar.offsetHeight;
-      scrollbarWidth = customScrollbar.getBoundingClientRect().width || customScrollbar.offsetWidth;
-    }
-
-    function animateScrollbarThumb() {
-      if (!scrollbarAnimating) return;
-      
-      const diff = targetThumbPos - currentThumbPos;
-      
-      if (Math.abs(diff) < 0.1) {
-        currentThumbPos = targetThumbPos;
-        scrollbarAnimating = false;
-        applyScrollbarTransform();
-      } else {
-        const easingFactor = 0.15;
-        currentThumbPos += diff * easingFactor;
-        applyScrollbarTransform();
-        scrollbarAnimationFrame = requestAnimationFrame(animateScrollbarThumb);
-      }
-    }
-    
-    function applyScrollbarTransform() {
-      const thumbWidth = Math.max(50, (clientWidth / scrollWidth) * scrollbarWidth);
-      
-      customScrollbarThumb.style.width = thumbWidth + 'px';
-      customScrollbarThumb.style.transform = `translate3d(${currentThumbPos}px,0,0)`;
-      
-      const scrollLeft = portfolioSection.scrollLeft;
-      const t = maxScroll > 0 ? scrollLeft / maxScroll : 0;
-        const p = Math.max(0, Math.min(1, t));
-      
-        customScrollbarThumb.style.background = `linear-gradient(90deg,
-          transparent 0%,
-          transparent ${Math.max(0, (p - 0.3) * 100)}%,
-        rgba(0,0,0,0.1) ${Math.max(0, (p - 0.2) * 100)}%,
-        rgba(0,0,0,0.4) ${Math.max(0, (p - 0.1) * 100)}%,
-        rgba(0,0,0,0.7) ${Math.max(0, (p - 0.05) * 100)}%,
-        #000000 ${p * 100}%,
-        rgba(0,0,0,0.7) ${Math.min(100, (p + 0.05) * 100)}%,
-        rgba(0,0,0,0.4) ${Math.min(100, (p + 0.1) * 100)}%,
-        rgba(0,0,0,0.1) ${Math.min(100, (p + 0.2) * 100)}%,
-          transparent ${Math.min(100, (p + 0.3) * 100)}%,
-          transparent 100%)`;
-      }
-    
-    function updateScrollbar() {
-      updateDimensions();
-      
-      const scrollLeft = portfolioSection.scrollLeft;
-      
-      if (maxScroll > 0 && scrollbarWidth > 0) {
-        const thumbWidth = Math.max(50, (clientWidth / scrollWidth) * scrollbarWidth);
-        const maxThumbPos = scrollbarWidth - thumbWidth;
-        targetThumbPos = Math.min(maxThumbPos, Math.max(0, (scrollLeft / maxScroll) * maxThumbPos));
-        
-        if (!scrollbarAnimating) {
-          scrollbarAnimating = true;
-          scrollbarAnimationFrame = requestAnimationFrame(animateScrollbarThumb);
-        }
-      }
-    }
-    
-    function initializeScrollbar() {
-      updateDimensions();
-      if (maxScroll > 0 && scrollbarWidth > 0) {
-        const scrollLeft = portfolioSection.scrollLeft;
-        const thumbWidth = Math.max(50, (clientWidth / scrollWidth) * scrollbarWidth);
-        const maxThumbPos = scrollbarWidth - thumbWidth;
-        currentThumbPos = targetThumbPos = Math.min(maxThumbPos, Math.max(0, (scrollLeft / maxScroll) * maxThumbPos));
-        applyScrollbarTransform();
-      }
-    }
-
-    portfolioSection.addEventListener('wheel', (e) => {
-      if (window.innerWidth > 768) {
-      e.preventDefault();
-        let scrollDelta = 0;
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-          scrollDelta = e.deltaX * 0.5;
-      } else {
-          scrollDelta = e.deltaY * 0.5;
-        }
-        portfolioSection.scrollLeft += scrollDelta;
-      }
-    }, { passive: false });
-
-    portfolioSection.addEventListener('scroll', updateScrollbar, { passive: true });
-
-    customScrollbar.addEventListener('click', (e) => {
-      updateDimensions();
-      const rect = customScrollbar.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const ratio = clickX / scrollbarWidth;
-      portfolioSection.scrollLeft = ratio * maxScroll;
-      updateScrollbar();
-    }, { passive: true });
-
-    customScrollbarThumb.addEventListener('click', (e) => e.stopPropagation(), { passive: true });
-
-    window.addEventListener('resize', () => {
-      updateDimensions();
-      initializeScrollbar();
-      updateScrollbar();
-    }, { passive: true });
-
-    // Initialize content immediately (no animations)
+    // Initialize clickable projects immediately
     function initializeContent() {
-      if (!customScrollbarThumb) return;
-      
-      const isMobile = window.innerWidth <= 768;
-      
-      if (isMobile) {
-        if (customScrollbarThumb) {
-          customScrollbarThumb.style.display = 'none';
-        }
-        
-        const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
-        clickableProjects.forEach(project => {
-          project.classList.add('loaded');
-        });
-        
-        return;
-      }
-      
-      updateDimensions();
-      
-      if (!scrollbarWidth || scrollbarWidth === 0) {
-        scrollbarWidth = window.innerWidth || 800;
-      }
-      
-      customScrollbarThumb.classList.remove('progress-active');
-      customScrollbarThumb.classList.add('scrollbar-active');
-      
-      initializeScrollbar();
-      updateScrollbar();
-      
       const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
       clickableProjects.forEach(project => {
         project.classList.add('loaded');
       });
     }
+    
+    // Align rows by constraining the last project in the shorter row
+    function alignRows() {
+      const topRow = document.querySelector('.top-row');
+      const bottomRow = document.querySelector('.bottom-row');
+      const portfolioLayout = document.querySelector('.portfolio-layout');
+      
+      if (!topRow || !bottomRow || !portfolioLayout) return;
+      
+      // Wait for layout to calculate
+      requestAnimationFrame(() => {
+        // Get the portfolio section padding (2px on each side = 4px total)
+        const portfolioSection = document.querySelector('.portfolio-section');
+        const padding = 4; // 2px on each side
+        
+        // Calculate total width of each row (including gap between projects)
+        // Get the right edge of the last project in each row
+        const topRowProjects = Array.from(topRow.querySelectorAll('.small-project'));
+        const bottomRowProjects = Array.from(bottomRow.querySelectorAll('.small-project'));
+        
+        if (topRowProjects.length === 0 || bottomRowProjects.length === 0) return;
+        
+        const topLastProject = topRowProjects[topRowProjects.length - 1];
+        const bottomLastProject = bottomRowProjects[bottomRowProjects.length - 1];
+        
+        // Get the right edge of each row (last project's right edge)
+        const topRowWidth = topLastProject.offsetLeft + topLastProject.offsetWidth;
+        const bottomRowWidth = bottomLastProject.offsetLeft + bottomLastProject.offsetWidth;
+        
+        // Find which row is shorter
+        const shorterRow = topRowWidth <= bottomRowWidth ? topRow : bottomRow;
+        const shorterRowWidth = topRowWidth <= bottomRowWidth ? topRowWidth : bottomRowWidth;
+        const longerRowWidth = topRowWidth <= bottomRowWidth ? bottomRowWidth : topRowWidth;
+        const lastProjectInShorterRow = topRowWidth <= bottomRowWidth ? topLastProject : bottomLastProject;
+        
+        // Calculate the target width for the last project in shorter row
+        // It should extend to match the longer row's width
+        const targetWidth = longerRowWidth - lastProjectInShorterRow.offsetLeft;
+        
+        // Get the current width of the project BEFORE changing it
+        const currentWidth = lastProjectInShorterRow.offsetWidth;
+        
+        // Calculate scale factor
+        const scaleFactor = currentWidth > 0 ? targetWidth / currentWidth : 1;
+        
+        // Get the media element BEFORE changing project width
+        const media = lastProjectInShorterRow.querySelector('.project-media');
+        const mediaOriginalWidth = media ? media.offsetWidth : 0;
+        
+        // Apply fixed width to the last project in shorter row
+        lastProjectInShorterRow.style.width = targetWidth + 'px';
+        lastProjectInShorterRow.style.overflow = 'hidden';
+        // Ensure the project aligns content to the left
+        lastProjectInShorterRow.style.justifyContent = 'flex-start';
+        
+        // Scale the media inside to fill the space (zoom in horizontally)
+        if (media && scaleFactor > 1 && mediaOriginalWidth > 0) {
+          // Wait a frame for the container width to update
+          requestAnimationFrame(() => {
+            // Set the media width to fill the new container width
+            media.style.width = targetWidth + 'px';
+            media.style.height = '100%';
+            media.style.maxWidth = 'none';
+            media.style.objectFit = 'cover';
+            media.style.objectPosition = 'left center';
+            // Ensure media is positioned from left
+            media.style.marginLeft = '0';
+            media.style.marginRight = 'auto';
+          });
+        }
+      });
+    }
+    
+    // Wait for media to load and layout to settle
+    setTimeout(() => {
+      alignRows();
+    }, 200);
+    
+    // Re-align on window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        // Reset width, overflow, and media styles first
+        document.querySelectorAll('.small-project').forEach(project => {
+          project.style.width = '';
+          project.style.overflow = '';
+          project.style.justifyContent = '';
+          const media = project.querySelector('.project-media');
+          if (media) {
+            media.style.width = '';
+            media.style.height = '';
+            media.style.maxWidth = '';
+            media.style.objectFit = '';
+            media.style.objectPosition = '';
+            media.style.marginLeft = '';
+            media.style.marginRight = '';
+          }
+        });
+        alignRows();
+      }, 250);
+    });
+    
+    // Wheel event for horizontal scrolling (desktop only)
+    portfolioSection.addEventListener('wheel', (e) => {
+      if (window.innerWidth > 768) {
+        e.preventDefault();
+        let scrollDelta = 0;
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+          scrollDelta = e.deltaX * 0.5;
+        } else {
+          scrollDelta = e.deltaY * 0.5;
+        }
+        portfolioSection.scrollLeft += scrollDelta;
+      }
+    }, { passive: false });
     
     initializeContent();
 });
