@@ -25,39 +25,6 @@ body {
   border: 0;
 }
 
-/* Loading Percentage Display */
-.loading-percentage {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 14px;
-  color: #000000;
-  font-family: 'Inter', 'Arial', sans-serif;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.loading-percentage .percentage-number {
-  font-size: 14px;
-}
-
-.loading-percentage .percentage-name {
-  font-size: 14px;
-  font-weight: 400;
-  min-height: 1em;
-  display: inline-block;
-}
-
-.loading-percentage.hidden {
-  opacity: 0;
-}
-
 /* Main Container */
 .main-container {
   height: 100vh;
@@ -268,25 +235,6 @@ body {
   transform: translateY(0);
 }
 
-.coming-soon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  color: #999;
-  font-size: 14px;
-  font-weight: 400;
-  text-align: center;
-  background-color: transparent;
-  aspect-ratio: 1;
-}
-
-.small-project:has(.coming-soon) {
-  background-color: transparent;
-  border: 1px solid rgb(219, 219, 219);
-}
-
 /* Top Section */
 .top-section {
   height: 33vh;
@@ -337,7 +285,6 @@ h3.name {
   opacity: 1;
   --nav-link-color: #a4a4a4;
   --nav-link-hover-color: #000000;
-  --copyright-color: #a4a4a4;
 }
 
 .nav-group {
@@ -367,27 +314,8 @@ h3.name {
   transition: transform 0.15s ease-out, opacity 0.15s ease-out;
 }
 
-.email-text.fade-out {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-.email-text.fade-in {
-  transform: translateY(100%);
-  opacity: 0;
-}
-
-.email-text.fade-in.show {
-  transform: translateY(0);
-  opacity: 1;
-}
-
 .nav-link:hover {
   color: var(--nav-link-hover-color);
-}
-
-.copyright {
-  color: var(--copyright-color);
 }
 
 /* Mobile */
@@ -478,15 +406,6 @@ h3.name {
     overflow: hidden;
   }
 
-  .small-project:has(.coming-soon) {
-    height: auto;
-  }
-
-  .coming-soon {
-    aspect-ratio: unset;
-    height: 100%;
-  }
-
   .project-media {
     max-width: 100%;
     width: 100%;
@@ -497,24 +416,5 @@ h3.name {
   .project-description {
     display: none;
   }
-
-  .bottom-section {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: auto;
-    min-height: auto;
-    max-height: none;
-    z-index: 1000;
-    background-color: #ffffff;
-    padding: 16px;
-    box-shadow: none;
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-
-
 }
 
