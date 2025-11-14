@@ -78,7 +78,15 @@ body {
 }
 
 .large-project:active {
-  transform: scale(0.98);
+  transform: scale(0.99);
+}
+
+.large-project:not(.clickable):hover {
+  cursor: not-allowed;
+}
+
+.large-project:not(.clickable):hover .project-media {
+  cursor: not-allowed;
 }
 
 .large-project.clickable {
@@ -87,7 +95,7 @@ body {
   color: inherit;
   pointer-events: none;
   position: relative;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease;
   opacity: 1;
 }
 
@@ -105,8 +113,7 @@ body {
 }
 
 .large-project.clickable:hover {
-  transform: scale(0.98);
-  opacity: 0.9;
+  transform: scale(0.99);
 }
 
 .large-project-with-padding {
@@ -159,7 +166,15 @@ body {
 }
 
 .small-project:active {
-  transform: scale(0.98);
+  transform: scale(0.99);
+}
+
+.small-project:not(.clickable):hover {
+  cursor: not-allowed;
+}
+
+.small-project:not(.clickable):hover .project-media {
+  cursor: not-allowed;
 }
 
 .small-project.clickable {
@@ -168,7 +183,7 @@ body {
   color: inherit;
   pointer-events: none;
   position: relative;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease;
   opacity: 1;
 }
 
@@ -186,8 +201,7 @@ body {
 }
 
 .small-project.clickable:hover {
-  transform: scale(0.98);
-  opacity: 0.9;
+  transform: scale(0.99);
 }
 
 .project-media {
