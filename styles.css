@@ -113,7 +113,6 @@ body {
 }
 
 .large-project.clickable:hover {
-  transform: scale(0.99);
 }
 
 .large-project-with-padding {
@@ -201,7 +200,6 @@ body {
 }
 
 .small-project.clickable:hover {
-  transform: scale(0.99);
 }
 
 .project-media {

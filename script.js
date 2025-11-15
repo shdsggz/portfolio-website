@@ -1,121 +1,100 @@
-window.addEventListener('load', function () {
-    const portfolioSection = document.querySelector('.portfolio-section');
-    if (!portfolioSection) {
-      console.error('Portfolio section not found'); return;
-    }
-
-    function initializeContent() {
-      const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
-      clickableProjects.forEach(project => {
-        project.classList.add('loaded');
-      });
-    }
-    
-    function alignRows() {
-      const topRow = document.querySelector('.top-row');
-      const bottomRow = document.querySelector('.bottom-row');
-      const portfolioLayout = document.querySelector('.portfolio-layout');
-      
-      if (!topRow || !bottomRow || !portfolioLayout) return;
-      
+function restoreScrollPosition(portfolioSection) {
+  const savedScrollPosition = sessionStorage.getItem('portfolioScrollPosition');
+  if (savedScrollPosition) {
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const portfolioSection = document.querySelector('.portfolio-section');
-        const padding = 4;
-        
-        const topRowProjects = Array.from(topRow.querySelectorAll('.small-project'));
-        const bottomRowProjects = Array.from(bottomRow.querySelectorAll('.small-project'));
-        
-        if (topRowProjects.length === 0 || bottomRowProjects.length === 0) return;
-        
-        const topLastProject = topRowProjects[topRowProjects.length - 1];
-        const bottomLastProject = bottomRowProjects[bottomRowProjects.length - 1];
-        
-        const topRowWidth = topLastProject.offsetLeft + topLastProject.offsetWidth;
-        const bottomRowWidth = bottomLastProject.offsetLeft + bottomLastProject.offsetWidth;
-        
-        const shorterRow = topRowWidth <= bottomRowWidth ? topRow : bottomRow;
-        const shorterRowWidth = topRowWidth <= bottomRowWidth ? topRowWidth : bottomRowWidth;
-        const longerRowWidth = topRowWidth <= bottomRowWidth ? bottomRowWidth : topRowWidth;
-        const lastProjectInShorterRow = topRowWidth <= bottomRowWidth ? topLastProject : bottomLastProject;
-        
-        const targetWidth = longerRowWidth - lastProjectInShorterRow.offsetLeft;
-        
-        const currentWidth = lastProjectInShorterRow.offsetWidth;
-        
-        const scaleFactor = currentWidth > 0 ? targetWidth / currentWidth : 1;
-        
-        const media = lastProjectInShorterRow.querySelector('.project-media');
-        const mediaOriginalWidth = media ? media.offsetWidth : 0;
-        
-        lastProjectInShorterRow.style.width = targetWidth + 'px';
-        lastProjectInShorterRow.style.overflow = 'hidden';
-        lastProjectInShorterRow.style.justifyContent = 'flex-start';
-        
-        if (media && scaleFactor > 1 && mediaOriginalWidth > 0) {
-          requestAnimationFrame(() => {
-            media.style.width = targetWidth + 'px';
-            media.style.height = '100%';
-            media.style.maxWidth = 'none';
-            media.style.objectFit = 'cover';
-            media.style.objectPosition = 'left center';
-            media.style.marginLeft = '0';
-            media.style.marginRight = 'auto';
-          });
-        }
+        portfolioSection.scrollLeft = parseInt(savedScrollPosition, 10);
+        sessionStorage.removeItem('portfolioScrollPosition');
       });
-    }
-    
-    setTimeout(() => {
-      alignRows();
-    }, 200);
-    
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        document.querySelectorAll('.small-project').forEach(project => {
-          project.style.width = '';
-          project.style.overflow = '';
-          project.style.justifyContent = '';
-          const media = project.querySelector('.project-media');
-          if (media) {
-            media.style.width = '';
-            media.style.height = '';
-            media.style.maxWidth = '';
-            media.style.objectFit = '';
-            media.style.objectPosition = '';
-            media.style.marginLeft = '';
-            media.style.marginRight = '';
-          }
-        });
-        alignRows();
-      }, 250);
     });
-    
-    function handlePortfolioScroll(e) {
-      if (window.innerWidth > 768) {
-        e.preventDefault();
-        let scrollDelta = 0;
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-          scrollDelta = e.deltaX * 0.5;
-        } else {
-          scrollDelta = e.deltaY * 0.5;
-        }
-        portfolioSection.scrollLeft += scrollDelta;
+  }
+}
+
+function saveScrollPosition() {
+  const portfolioSection = document.querySelector('.portfolio-section');
+  if (portfolioSection) {
+    sessionStorage.setItem('portfolioScrollPosition', portfolioSection.scrollLeft.toString());
+  }
+}
+
+function initializeContent() {
+  const clickableProjects = document.querySelectorAll('.large-project.clickable, .small-project.clickable');
+  clickableProjects.forEach(project => {
+    project.classList.add('loaded');
+  });
+}
+
+function initPortfolioLayout() {
+  const portfolioSection = document.querySelector('.portfolio-section');
+  if (!portfolioSection) {
+    console.error('Portfolio section not found');
+    return;
+  }
+
+  restoreScrollPosition(portfolioSection);
+  initializeContent();
+
+  function handlePortfolioScroll(e) {
+    if (window.innerWidth > 768) {
+      if (e.ctrlKey || e.metaKey) {
+        return;
       }
+      
+      e.preventDefault();
+      let scrollDelta = 0;
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        scrollDelta = e.deltaX * 0.5;
+      } else {
+        scrollDelta = e.deltaY * 0.5;
+      }
+      portfolioSection.scrollLeft += scrollDelta;
     }
-    
-    portfolioSection.addEventListener('wheel', handlePortfolioScroll, { passive: false });
-    
-    document.body.addEventListener('wheel', (e) => {
-      if (window.innerWidth > 768) {
-        if (e.target.closest('.portfolio-section')) {
-          return;
-        }
-        
-        handlePortfolioScroll(e);
+  }
+
+  portfolioSection.addEventListener('wheel', handlePortfolioScroll, { passive: false });
+
+  document.body.addEventListener('wheel', (e) => {
+    if (window.innerWidth > 768) {
+      if (e.target.closest('.portfolio-section')) {
+        return;
       }
-    }, { passive: false });
-    
-    initializeContent();
+      
+      handlePortfolioScroll(e);
+    }
+  }, { passive: false });
+}
+
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    initPortfolioLayout();
+  }
 });
+
+window.addEventListener('pagehide', (event) => {
+  if (event.persisted) {
+    saveScrollPosition();
+  }
+});
+
+window.addEventListener('load', initPortfolioLayout);
+/*
+ * Calculate target project aspect ratio to match rows:
+ * 
+ * 1. Calculate bottom row total width ratio:
+ *    bottomRowRatio = sum of all bottom row project aspect ratios + gaps between them
+ *    (gap = 2px, but calculate as ratio relative to row height)
+ * 
+ * 2. Calculate top row width before target project:
+ *    topRowBeforeRatio = sum of top row project aspect ratios (before target) + gaps
+ * 
+ * 3. Calculate target project aspect ratio:
+ *    targetRatio = bottomRowRatio - topRowBeforeRatio - gap
+ * 
+ * Example calculation:
+ * - Bottom row: Suisse (1.576) + gap + Quantum Medical Bed (1.793) + gap + Star Wars (1.928) = 9.297
+ * - Top row before: Potential (1.778) + gap + Missouri (1.793) = 5.571
+ * - Target: 9.297 - 5.571 - 2 = 1.726
+ * 
+ * For 1080px height: target width = 1.726 * 1080 = 1864px
+ * Result: 1864x1080px (or 1920x1112px if keeping 1920px width)
+ */
