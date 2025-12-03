@@ -57,9 +57,10 @@ body {
 }
 
 .large-project {
-  /* Container: height fills parent, width determined by content */
+  /* Container: height fills parent, width calculated from aspect ratio */
   height: 100%;
   width: auto;
+  aspect-ratio: 2515 / 1764;
   flex-shrink: 0;
   min-width: 0;
   
@@ -207,6 +208,7 @@ body {
   height: 100%;
   width: auto;
   max-height: 100%;
+  max-width: 100%;
   
   /* Prevent media from expanding container */
   min-width: 0;
@@ -220,15 +222,6 @@ body {
   /* Visual styling */
   background-color: #F5F5F5;
   user-select: none;
-}
-
-/* Older Safari fix - prevent video from stretching container */
-.large-project video.project-media {
-  max-width: 100%;
-  width: auto;
-  height: 100%;
-  -webkit-flex-shrink: 0;
-  flex-shrink: 0;
 }
 
 .small-project,
@@ -408,6 +401,7 @@ h3.name {
     width: 100%;
     max-width: 100%;
     height: auto;
+    aspect-ratio: unset;
     margin: 0;
     box-sizing: border-box;
     overflow: hidden;
