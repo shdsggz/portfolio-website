@@ -60,7 +60,6 @@ body {
   /* Container: height fills parent, width calculated from aspect ratio */
   height: 100%;
   width: auto;
-  aspect-ratio: 2515 / 1764;
   flex-shrink: 0;
   min-width: 0;
   
@@ -76,6 +75,16 @@ body {
   position: relative;
   cursor: default;
   transition: transform 0.3s ease;
+}
+
+/* JDV project - image aspect ratio 2515x1764 */
+.large-project-jdv {
+  aspect-ratio: 2515 / 1764;
+}
+
+/* Popmore project - video aspect ratio 650x1080 */
+.large-project-popmore {
+  aspect-ratio: 650 / 1080;
 }
 
 .large-project:active {
@@ -111,9 +120,6 @@ body {
 
 .large-project.clickable.loaded * {
   cursor: pointer;
-}
-
-.large-project.clickable:hover {
 }
 
 .large-project-with-padding {
@@ -198,9 +204,6 @@ body {
 
 .small-project.clickable.loaded * {
   cursor: pointer;
-}
-
-.small-project.clickable:hover {
 }
 
 .project-media {
@@ -405,6 +408,11 @@ h3.name {
     margin: 0;
     box-sizing: border-box;
     overflow: hidden;
+  }
+  
+  .large-project-jdv,
+  .large-project-popmore {
+    aspect-ratio: unset;
   }
 
   .two-rows-container {
