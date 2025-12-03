@@ -69,7 +69,7 @@ body {
   min-width: 0;
   content-visibility: auto;
   contain: layout paint;
-  background-color: #ffffff;
+  background-color: #F5F5F5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,7 +116,7 @@ body {
 }
 
 .large-project-with-padding {
-  background-color: #ffffff;
+  background-color: #F5F5F5;
 }
 
 /* Two Rows Container */
@@ -146,7 +146,7 @@ body {
 }
 
 .small-project {
-  background-color: #ffffff;
+  background-color: #F5F5F5;
   overflow: hidden;
   cursor: default;
   flex-shrink: 0;
@@ -216,6 +216,8 @@ body {
   object-position: center;
   -webkit-user-select: none;
   user-select: none;
+  background-color: #F5F5F5;
+  min-width: 0;
 }
 
 .small-project,

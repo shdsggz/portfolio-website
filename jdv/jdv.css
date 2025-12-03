@@ -19,6 +19,7 @@ body {
 
 img {
   width: 100%;
+  background-color: #F5F5F5;
 }
 
 /* Layout */
@@ -200,6 +201,7 @@ img {
   width: 100%;
   height: auto;
   display: block;
+  background-color: #F5F5F5;
 }
 
 .hero-main {
@@ -276,6 +278,7 @@ img {
   max-width: 1000px;
   height: auto;
   display: block;
+  background-color: #F5F5F5;
 }
 
 .feature-image {
@@ -283,6 +286,7 @@ img {
   max-width: 1000px;
   height: auto;
   display: block;
+  background-color: #F5F5F5;
 }
 
 .feature-full-width .feature-image {
@@ -307,6 +311,7 @@ img {
   margin: 0 auto;
   display: block;
   max-width: 1044px;
+  background-color: #F5F5F5;
 }
 
 .process-section {
@@ -321,6 +326,7 @@ img {
   margin: 0 auto;
   display: block;
   max-width: 1044px;
+  background-color: #F5F5F5;
 }
 
 .full-width-image-wrapper {
