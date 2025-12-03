@@ -49,6 +49,7 @@
     <section class="top-section">
       <div class="bottom-content">
         <h3 class="name">Leo Song — Interaction Designer</h3>
+        <h3 class="name name-right">Los Angeles, CA</h3>
         
         <div class="navigation-links">
           <div class="nav-group">
@@ -57,11 +58,6 @@
               <span class="email-text">Email</span>
             </a>
             <a href="https://www.linkedin.com/in/songleoo/" class="nav-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          </div>
-          <div class="nav-group nav-group-right">
-            <span class="nav-text">Based in LA</span>
-            <span class="nav-text">v04</span>
-            <span class="nav-text">Made with Code</span>
           </div>
         </div>
       </div>
@@ -72,13 +68,21 @@
       <div class="portfolio-layout">
         <!-- Large Project 2 -->
         <a href="jdv/" class="large-project large-project-with-padding clickable">
-          <img src="media/jdv.webp" alt="John Deere Vision" class="project-media" loading="lazy" decoding="async">
+          <img 
+            src="media/jdv.webp" 
+            alt="John Deere Vision" 
+            class="project-media" 
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            width="1920"
+            height="1080">
           <div class="project-description">John Deere: Vision 2035 [WIP]</div>
         </a>
         
         <!-- Large Project -->
         <a href="popmore/" class="large-project large-project-with-padding clickable">
-          <video autoplay muted loop class="project-media" playsinline preload="metadata">
+          <video autoplay muted loop class="project-media" playsinline preload="auto">
             <source src="media/popmore.mp4" type="video/mp4">
           </video>
           <div class="project-description">Reimagining Unboxing, App Design</div>
@@ -96,19 +100,21 @@
             </a>
             
             <a href="missouri/" class="small-project clickable missouri-project">
-              <img src="media/missouri.webp" alt="Voices of Missouri" class="project-media" loading="lazy" decoding="async">
+              <img 
+                src="media/missouri.webp" 
+                alt="Voices of Missouri" 
+                class="project-media" 
+                loading="eager" 
+                decoding="async"
+                fetchpriority="high"
+                width="1920"
+                height="1080">
               <div class="project-description">Voices of Missouri, Booklet Design</div>
             </a>
-            
-            <!-- <div class="small-project">
-              <video autoplay muted loop class="project-media" playsinline preload="metadata">
-                <source src="media/squares.mp4" type="video/mp4">
-              </video>
-              <div class="project-description">Latecomer — After Effects</div>
-            </div> -->
+          
             
             <div class="small-project">
-              <video autoplay muted loop class="project-media" playsinline preload="metadata">
+              <video autoplay muted loop class="project-media" playsinline preload="none">
                 <source src="media/qp.mp4" type="video/mp4">
               </video>
               <div class="project-description">Calabi Yau Manifold — Blender</div>
@@ -124,21 +130,15 @@
               <div class="project-description">Suisse Specimen Guide</div>
             </a>
             <div class="small-project">
-              <video autoplay muted loop class="project-media" playsinline preload="metadata">
+              <video autoplay muted loop class="project-media" playsinline preload="none">
                 <source src="media/qp-2.mp4" type="video/mp4">
               </video>
               <div class="project-description">Quantum Medical Bed — Blender, Midjourney</div>
             </div>
             
-            <!-- <div class="small-project">
-              <video autoplay muted loop class="project-media" playsinline preload="metadata">
-                <source src="media/Flower.mp4" type="video/mp4">
-              </video>
-              <div class="project-description">Blossom — After Effects</div>
-            </div> -->
      
             <div class="small-project">
-              <video autoplay muted loop class="project-media" playsinline preload="metadata">
+              <video autoplay muted loop class="project-media" playsinline preload="none">
                 <source src="media/starwars.mp4" type="video/mp4">
               </video>
               <div class="project-description">Star Wars — Unreal Engine 5</div>

@@ -274,6 +274,7 @@ body {
   flex-shrink: 0;
   overflow: hidden;
   box-sizing: border-box;
+  position: relative;
 }
 
 .bottom-content {
@@ -297,6 +298,13 @@ body {
 
 h3.name {
   font-size: 12px;
+}
+
+.name-right {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  margin: 0;
 }
 
 /* Navigation Links */

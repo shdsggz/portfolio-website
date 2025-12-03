@@ -33,30 +33,6 @@ function initPortfolioLayout() {
 
   restoreScrollPosition(portfolioSection);
   initializeContent();
-  
-  // Fix for older Safari: force layout recalculation after videos load metadata
-  const videos = document.querySelectorAll('.project-media video');
-  if (videos.length > 0) {
-    let loadedCount = 0;
-    const checkAllLoaded = () => {
-      loadedCount++;
-      if (loadedCount === videos.length) {
-        // All videos loaded - force Safari to recalculate layout
-        requestAnimationFrame(() => {
-          const layout = document.querySelector('.portfolio-layout');
-          if (layout) void layout.offsetHeight; // Force reflow
-        });
-      }
-    };
-    
-    videos.forEach(video => {
-      if (video.readyState >= 1) {
-        checkAllLoaded();
-      } else {
-        video.addEventListener('loadedmetadata', checkAllLoaded, { once: true });
-      }
-    });
-  }
 
   function handlePortfolioScroll(e) {
     if (window.innerWidth > 768) {
