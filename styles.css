@@ -57,7 +57,7 @@ body {
 }
 
 .large-project {
-  /* Container: height fills parent, width calculated from aspect ratio */
+  /* Container: height fills parent, width determined by content */
   height: 100%;
   width: auto;
   flex-shrink: 0;
@@ -75,16 +75,6 @@ body {
   position: relative;
   cursor: default;
   transition: transform 0.3s ease;
-}
-
-/* JDV project - video aspect ratio 2320x1764 */
-.large-project-jdv {
-  aspect-ratio: 2515 / 1764;
-}
-
-/* Popmore project - video aspect ratio 650x1080 */
-.large-project-popmore {
-  aspect-ratio: 650 / 1080;
 }
 
 .large-project:active {
@@ -122,8 +112,28 @@ body {
   cursor: pointer;
 }
 
+.large-project.clickable:hover {
+}
+
 .large-project-with-padding {
   background-color: #F5F5F5;
+}
+
+/* JDV project - video aspect ratio 2514x1764 */
+.large-project-jdv {
+  aspect-ratio: 2514 / 1764;
+}
+
+/* Popmore project - video aspect ratio 650x1080 */
+.large-project-popmore {
+  aspect-ratio: 650 / 1080;
+}
+
+@media (max-width: 768px) {
+  .large-project-jdv,
+  .large-project-popmore {
+    aspect-ratio: unset; /* Unset aspect ratio for mobile */
+  }
 }
 
 /* Two Rows Container */
@@ -206,12 +216,14 @@ body {
   cursor: pointer;
 }
 
+.small-project.clickable:hover {
+}
+
 .project-media {
   /* Media fills container height, width maintains aspect ratio */
   height: 100%;
   width: auto;
   max-height: 100%;
-  max-width: 100%;
   
   /* Prevent media from expanding container */
   min-width: 0;
@@ -225,6 +237,15 @@ body {
   /* Visual styling */
   background-color: #F5F5F5;
   user-select: none;
+}
+
+/* Older Safari fix - prevent video from stretching container */
+.large-project video.project-media {
+  max-width: 100%;
+  width: auto;
+  height: 100%;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .small-project,
@@ -404,15 +425,9 @@ h3.name {
     width: 100%;
     max-width: 100%;
     height: auto;
-    aspect-ratio: unset;
     margin: 0;
     box-sizing: border-box;
     overflow: hidden;
-  }
-  
-  .large-project-jdv,
-  .large-project-popmore {
-    aspect-ratio: unset;
   }
 
   .two-rows-container {
