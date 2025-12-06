@@ -124,6 +124,10 @@ body {
   aspect-ratio: 2514 / 1764;
 }
 
+.large-project-jdv .project-media {
+  transform: scale(1.005);
+}
+
 /* Popmore project - video aspect ratio 650x1080 */
 .large-project-popmore {
   aspect-ratio: 650 / 1080;
